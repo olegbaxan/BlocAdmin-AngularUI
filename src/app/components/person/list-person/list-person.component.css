@@ -1,0 +1,19 @@
+th,td{
+  line-height: 20px;
+}
+.table-responsive {
+  display: table;
+}
+/*table{*/
+/*  border-collapse: collapse;*/
+/*  height: 100vh;*/
+/*}*/
+
+.paginationCss {
+  position: relative;
+  right: 35%;
+  left: 35%;
+  font-size: 16px;
+  line-height: 10px;
+}
+

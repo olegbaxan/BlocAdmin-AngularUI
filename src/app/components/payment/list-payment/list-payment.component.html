@@ -1,0 +1,196 @@
+<div class="container-fluid" *ngIf="tokenStorageService.isLoggedIn; else loggedOut">
+  <div class="row">
+    <div class="col-lg-12">
+
+      <div class="card">
+        <div class="row">
+          <div class="card-header">
+            <i class="fa fa-building"></i> List of available Payments
+          </div>
+        </div>
+
+        <div class="card-body">
+          <div class="row">
+            <div class="col-2">
+              <a class="btn btn-light btn-lg m-3" routerLink="add"><img src="../../../assets/img/new1.png">Add New</a>
+            </div>
+            <div class="col-4" >
+              <form class="d-flex" action="list" method="get">
+                <div class="row pt-4 dataTables_length bs-select" id="dtBasicExample_length">
+                  <div class="col-8" >
+                    Items per Page:
+                  </div>
+                  <div class="col-4" >
+                    <select (change)="handlePageSizeChange($event)">
+                      <option *ngFor="let size of pageSizes" [ngValue]="size">
+                        {{ size }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <div class="col-6 pt-4">
+              <form class="d-flex" action="list" method="get">
+                <!--            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="query" #search>-->
+                <input type="text" class="form-control" placeholder="Search word" [(ngModel)]="title" name="query"/>
+                <button class="btn btn-success btn-lg text-center me-3 ms-3" type="button" (click)="retrievePayments()">Search
+                </button>
+                <a href="/person" class="btn btn-primary btn-lg text-center" role="button" aria-pressed="true">Clear</a>
+              </form>
+            </div>
+          </div>
+          <nav>
+            <ul class="pagination">
+              <div class="col-md-12 paginationCss">
+                <pagination-controls
+                  previousLabel="Prev"
+                  nextLabel="Next"
+                  [responsive]="true"
+                  (pageChange)="handlePageChange($event)"
+                  (pageBoundsCorrection)="handlePageChange($event)"
+                ></pagination-controls>
+              </div>
+            </ul>
+          </nav>
+          <table class="table table-bordered table-responsive-sm table-striped table-sm">
+            <thead align="center">
+            <tr>
+                          <th class="col-1">Person</th>
+                          <th class="col-3">Flat</th>
+                          <th class="col-1">Date</th>
+                          <th class="col-1">Sum</th>
+                          <th class="col-2" colspan=2>Quick Edit</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let payment of payments|paginate : {
+                              itemsPerPage: pageSize,
+                              currentPage: page,
+                              totalItems: count
+                            };
+                            let i = index"
+                align="center" style="font-size: 18px">
+              <td *ngIf="payment.person">{{payment.person.name}} {{payment.person.surname}}</td>
+              <td *ngIf="payment.flat">Flat:{{payment.flat.flatNumber}}, Floor:{{payment.flat.floor}},
+                Address:{{payment.flat.building?.address?.city}}
+                {{payment.flat.building?.address?.raion}} {{payment.flat.building?.address?.street}} {{payment.flat.building?.address?.houseNumber}}
+                <span
+                  *ngIf="payment.flat.building?.address?.entranceNo">/{{payment.flat.building?.address?.entranceNo}}</span>
+              </td>
+              <td>{{payment.payDate}}</td>
+              <td>{{payment.sum}}</td>
+
+              <td align="center"><a class="btn btn-lg" routerLink="{{payment.paymentsid}}"><img
+                src="../../../assets/img/edit1.png">Edit</a></td>
+            </tr>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+      <div class="card-footer">
+
+      </div>
+    </div>
+
+  </div>
+</div>
+<ng-template #loggedOut>
+  Please login.
+</ng-template>
+
+
+
+
+
+<!--<div class="container-fluid" *ngIf="tokenStorageService.isLoggedIn; else loggedOut">-->
+<!--  &lt;!&ndash;<div class="container-fluid">&ndash;&gt;-->
+<!--  <div class="row">-->
+<!--    <h2 class="pt-3">List of Payments</h2>-->
+<!--    <div class="col-12" style="border: 2px solid; border-color: rgb(0, 38, 255);font-size: large">-->
+<!--      <div class="row">-->
+<!--        <div class="col-2">-->
+<!--          <a class="btn btn-light btn-lg m-3" routerLink="add"><img src="../../../assets/img/new1.png">Add New</a>-->
+<!--        </div>-->
+<!--        <div class="col-3">-->
+<!--          <form class="d-flex" action="list" method="get">-->
+<!--            <div class="dataTables_length bs-select" id="dtBasicExample_length">-->
+
+<!--              <div class="row">-->
+<!--                <div class="col-9">-->
+<!--                  Items per Page:-->
+<!--                </div>-->
+<!--                <div class="col-2">-->
+<!--                  <select (change)="handlePageSizeChange($event)">-->
+<!--                    <option *ngFor="let size of pageSizes" [ngValue]="size">-->
+<!--                      {{ size }}-->
+<!--                    </option>-->
+<!--                  </select>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </form>-->
+<!--        </div>-->
+<!--        <div class="col-5 pt-4">-->
+<!--          <form class="d-flex" action="list" method="get">-->
+<!--            &lt;!&ndash;            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="query" #search>&ndash;&gt;-->
+<!--            <input  type="text"  class="form-control" placeholder="Search word" [(ngModel)]="title" name="query"/>-->
+<!--            <button class="btn btn-success btn-lg text-center" type="button" (click)="retrievePayments()">Search</button>-->
+<!--            <a href="/person" class="btn btn-primary btn-lg text-center" role="button" aria-pressed="true">Clear</a>-->
+<!--          </form>-->
+<!--        </div>-->
+
+<!--      </div>-->
+<!--      <div>-->
+<!--        <table class="table table-bordered table-hover table-primary table-responsive table-responsive-lg">-->
+<!--          <thead class="thead-dark">-->
+<!--          <tr align="center" style="font-size: 20px">-->
+<!--            <th class="col-1">Person</th>-->
+<!--            <th class="col-3">Flat</th>-->
+<!--            <th class="col-1">Date</th>-->
+<!--            <th class="col-1">Sum</th>-->
+<!--            <th class="col-2" colspan=2>Quick Edit</th>-->
+<!--          </tr>-->
+<!--          </thead>-->
+
+
+<!--          <tr *ngFor="let payment of payments|paginate : {-->
+<!--                  itemsPerPage: pageSize,-->
+<!--                  currentPage: page,-->
+<!--                  totalItems: count-->
+<!--                };-->
+<!--                let i = index"-->
+<!--              align="center" style="font-size: 18px">-->
+<!--            <td *ngIf="payment.person">{{payment.person.name}} {{payment.person.surname}}</td>-->
+<!--            <td *ngIf="payment.flat">Flat:{{payment.flat.flatNumber}}, Floor:{{payment.flat.floor}}, Address:{{payment.flat.building?.address?.city}}-->
+<!--              {{payment.flat.building?.address?.raion}} {{payment.flat.building?.address?.street}} {{payment.flat.building?.address?.houseNumber}}-->
+<!--              <span *ngIf="payment.flat.building?.address?.entranceNo">/{{payment.flat.building?.address?.entranceNo}}</span> </td>-->
+<!--            <td>{{payment.payDate}}</td>-->
+<!--            <td>{{payment.sum}}</td>-->
+
+<!--            <td align="center"><a class="btn btn-lg" routerLink="{{payment.paymentsid}}"><img src="../../../assets/img/edit1.png">Edit</a></td>-->
+<!--          </tr>-->
+<!--        </table>-->
+
+<!--      </div>-->
+
+<!--    </div>-->
+<!--    <div class="col-md-12 paginationCss">-->
+<!--      <pagination-controls-->
+<!--        previousLabel="Prev"-->
+<!--        nextLabel="Next"-->
+<!--        [responsive]="true"-->
+<!--        (pageChange)="handlePageChange($event)"-->
+<!--        (pageBoundsCorrection)="handlePageChange($event)"-->
+<!--      ></pagination-controls>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+<!--<ng-template #loggedOut>-->
+<!--  Please login.-->
+<!--</ng-template>-->
+
+
+

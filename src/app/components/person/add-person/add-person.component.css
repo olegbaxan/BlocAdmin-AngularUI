@@ -1,0 +1,4 @@
+@import "~@ng-select/ng-select/themes/ant.design.theme.css";
+.table-responsive {
+  display: table;
+}

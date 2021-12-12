@@ -1,0 +1,102 @@
+<div class="container-fluid" *ngIf="tokenStorageService.isLoggedIn; else loggedOut">
+  <div class="row">
+    <div class="col-lg-12">
+
+      <div class="card">
+        <div class="row">
+          <div class="card-header">
+            <i class="fa fa-building"></i> List of available Buildings
+          </div>
+
+        </div>
+
+        <div class="card-body">
+          <div class="row">
+            <div class="col-2">
+              <a class="btn btn-light btn-lg m-3" routerLink="add"><img src="../../../assets/img/new1.png">Add New</a>
+            </div>
+            <div class="col-4" >
+              <form class="d-flex" action="list" method="get">
+                <div class="row pt-4 dataTables_length bs-select" id="dtBasicExample_length">
+                  <div class="col-8" >
+                    Items per Page:
+                  </div>
+                  <div class="col-4" >
+                    <select (change)="handlePageSizeChange($event)">
+                      <option *ngFor="let size of pageSizes" [ngValue]="size">
+                        {{ size }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+          <div class="col-6 pt-4">
+            <form class="d-flex" action="list" method="get">
+              <!--            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="query" #search>-->
+              <input type="text" class="form-control" placeholder="Search word" [(ngModel)]="title" name="query"/>
+              <button class="btn btn-success btn-lg text-center me-3 ms-3" type="button" (click)="retrieveBuildings()">Search
+              </button>
+              <a href="/person" class="btn btn-primary btn-lg text-center" role="button" aria-pressed="true">Clear</a>
+            </form>
+          </div>
+          </div>
+          <nav>
+            <ul class="pagination">
+              <div class="col-md-12 paginationCss">
+                <pagination-controls
+                  previousLabel="Prev"
+                  nextLabel="Next"
+                  [responsive]="true"
+                  (pageChange)="handlePageChange($event)"
+                  (pageBoundsCorrection)="handlePageChange($event)"
+                ></pagination-controls>
+              </div>
+            </ul>
+          </nav>
+          <table class="table table-bordered table-responsive-sm table-striped table-sm">
+            <thead align="center">
+            <tr>
+              <th>BuildingID</th>
+              <th>Building Address</th>
+              <th>Number of stages</th>
+              <th>Number of flats</th>
+              <th class="col-1" colspan=2>Quick Edit</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let building of buildings|paginate : {
+                  itemsPerPage: pageSize,
+                  currentPage: page,
+                  totalItems: count
+                };
+                let i = index"
+                align="center" style="font-size: 18px">
+              <td>{{building.buildingid}}</td>
+              <td
+                *ngIf="building.address">{{building.address.city}} {{building.address.raion}} {{building.address.street}} {{building.address.houseNumber}}
+                <span *ngIf="building.address.entranceNo">/{{building.address.entranceNo}}</span></td>
+              <td>{{building.floors}}</td>
+              <td>{{building.flats}}</td>
+              <td align="center"><a class="btn btn-lg" routerLink="{{building.buildingid}}"><img
+                src="../../../assets/img/edit1.png"></a></td>
+            </tr>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+      <div class="card-footer">
+
+      </div>
+    </div>
+
+  </div>
+</div>
+<ng-template #loggedOut>
+  Please login.
+</ng-template>
+
+
+

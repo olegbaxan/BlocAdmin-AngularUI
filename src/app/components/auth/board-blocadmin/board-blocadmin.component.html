@@ -1,0 +1,225 @@
+<div class="container-fluid" *ngIf="newInvoices">
+  <div class="row">
+    <div class="col-lg-12">
+
+      <div class="card">
+        <div class="row">
+          <div class="card-header">
+            <i class="fa fa-building"></i> List of Unpaid Person Invoices
+          </div>
+        </div>
+        <div class="card-body">
+          <table class="table table-bordered table-responsive-sm table-striped table-sm">
+            <thead align="center">
+            <tr>
+              <th class="col-1">Invoice number</th>
+              <th class="col-1">Current value</th>
+              <th class="col-1">Previous value</th>
+              <th class="col-1">Total sum</th>
+              <th class="col-1">Unit price</th>
+              <th class="col-1">Pay till</th>
+              <th class="col-1">Emittion date</th>
+              <th class="col-1">Pay date</th>
+              <th class="col-1">Meter</th>
+              <th class="col-1">Supplier</th>
+              <th class="col-1">Buildings</th>
+              <th class="col-1">Persons</th>
+<!--              <th class="col-1" colspan=2>Quick Edit</th>-->
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let invoice of newInvoices" align="center" style="font-size: 18px">
+              <td>{{invoice.invoiceNumber}}</td>
+              <td>{{invoice.meterDataCurrent}}</td>
+              <td>{{invoice.meterDataPrevious}}</td>
+              <td>{{invoice.invoiceSum}}</td>
+              <td>{{invoice.unitPrice}}</td>
+              <td>{{invoice.payTill}}</td>
+              <td>{{invoice.emittedDate}}</td>
+              <td>{{invoice.dateOfPay}}</td>
+              <td>{{invoice.meter?.serial}}</td>
+              <td>{{invoice.supplier?.supplierName}}</td>
+              <td><span
+                *ngFor="let building of invoice.buildings">{{building?.address?.city}} {{building?.address?.raion}} {{building?.address?.street}} {{building?.address?.houseNumber}}
+                <span *ngIf="building?.address?.entranceNo">/{{building?.address?.entranceNo}}</span></span></td>
+              <td>
+                {{invoice?.meter?.person}}
+<!--                          <span *ngIf="invoice.fileInfo">-->
+<!--                          <a href="{{invoice.fileInfo?.url}}" download="{{invoice.fileInfo?.name}}">Download</a>-->
+<!--                            </span>-->
+              </td>
+<!--              <td align="center"><a class="btn btn-lg" routerLink="{{invoice.invoiceId}}"><img-->
+<!--                src="../../../assets/img/edit1.png">Edit</a></td>-->
+            </tr>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+      <div class="card-footer">
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="container-fluid" *ngIf="newInvoicesSupp">
+  <div class="row">
+    <div class="col-lg-12">
+
+      <div class="card">
+        <div class="row">
+          <div class="card-header">
+            <i class="fa fa-building"></i> List of New Suppliers Invoices
+          </div>
+        </div>
+        <div class="card-body">
+          <table class="table table-bordered table-responsive-sm table-striped table-sm">
+            <thead align="center">
+            <tr>
+              <th class="col-1">Invoice number</th>
+              <th class="col-1">Current value</th>
+              <th class="col-1">Previous value</th>
+              <th class="col-1">Total sum</th>
+              <th class="col-1">Unit price</th>
+              <th class="col-1">Pay till</th>
+              <th class="col-1">Emittion date</th>
+              <th class="col-1">Pay date</th>
+              <th class="col-1">Meter</th>
+              <th class="col-1">Supplier</th>
+              <th class="col-1">Buildings</th>
+              <th class="col-1">Attachement</th>
+              <!--              <th class="col-1" colspan=2>Quick Edit</th>-->
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let invoice of newInvoicesSupp" align="center" style="font-size: 18px">
+              <td>{{invoice.invoiceNumber}}</td>
+              <td>{{invoice.meterDataCurrent}}</td>
+              <td>{{invoice.meterDataPrevious}}</td>
+              <td>{{invoice.invoiceSum}}</td>
+              <td>{{invoice.unitPrice}}</td>
+              <td>{{invoice.payTill}}</td>
+              <td>{{invoice.emittedDate}}</td>
+              <td>{{invoice.dateOfPay}}</td>
+              <td>{{invoice.meter?.serial}}</td>
+              <td>{{invoice.supplier?.supplierName}}</td>
+              <td><span
+                *ngFor="let building of invoice.buildings">{{building?.address?.city}} {{building?.address?.raion}} {{building?.address?.street}} {{building?.address?.houseNumber}}
+                <span *ngIf="building?.address?.entranceNo">/{{building?.address?.entranceNo}}</span></span></td>
+              <td>
+                          <span *ngIf="invoice.fileInfo">
+                          <a href="{{invoice.fileInfo?.url}}" download="{{invoice.fileInfo?.name}}">Download</a>
+                            </span>
+              </td>
+              <!--              <td align="center"><a class="btn btn-lg" routerLink="{{invoice.invoiceId}}"><img-->
+              <!--                src="../../../assets/img/edit1.png">Edit</a></td>-->
+            </tr>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+      <div class="card-footer">
+
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="container-fluid" *ngIf="flats">
+  <div class="row">
+    <div class="col-lg-12">
+
+      <div class="card">
+        <div class="row">
+          <div class="card-header">
+            <i class="fa fa-building"></i> List of Flats with negative value for wallet
+          </div>
+
+        </div>
+
+        <div class="card-body">
+
+          <table class="table table-bordered table-responsive-sm table-striped table-sm">
+            <thead align="center">
+            <tr>
+              <th class="col-1">Flat number</th>
+              <th class="col-1">Floor</th>
+              <th class="col-1">Entrance</th>
+              <th class="col-1">Wallet</th>
+              <th class="col-2">Person(s)</th>
+              <th class="col-2">Building</th>
+              <!--            <th class="col-1">Meters</th>-->
+              <th class="col-1">Person Number</th>
+<!--              <th class="col-2" colspan=2>Quick Edit</th>-->
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let flat of flats; let i = index"
+                align="center" style="font-size: 18px">
+              <td>{{flat.flatNumber}}</td>
+              <td>{{flat.floor}}</td>
+              <td>{{flat.entrance}}</td>
+              <td>{{flat.wallet}}</td>
+              <td *ngIf="flat.person">
+                <ng-option *ngFor="let p of flat.person" [value]="flat.person">{{p.name}} {{p.surname}}</ng-option>
+              </td>
+              <!--            Without entrance-->
+              <td
+                *ngIf="!flat.building?.address?.entranceNo">{{flat.building?.address?.city}} {{flat.building?.address?.raion}} {{flat.building?.address?.street}} {{flat.building?.address?.houseNumber}}</td>
+              <!--            In case if entranceExist-->
+              <td
+                *ngIf="flat.building?.address?.entranceNo">{{flat.building?.address?.city}} {{flat.building?.address?.raion}} {{flat.building?.address?.street}} {{flat.building?.address?.houseNumber}}
+                /{{flat.building?.address?.entranceNo}} </td>
+              <td>{{flat.numberOfPerson}}</td>
+<!--              <td align="center"><a class="btn btn-lg" routerLink="{{flat.flatid}}"><img-->
+<!--                src="../../../assets/img/edit1.png">Edit</a></td>-->
+            </tr>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+      <div class="card-footer">
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<ng-template #loggedOut>
+  Please login.
+</ng-template>
+
+<!--Modal for delete confirmation bad-->
+<!--<div class="container text-center my-5">-->
+<!--  <div class="modal" id="myModalBad" [style.display]="showModalBad ? 'block' : 'none'">-->
+<!--    <div class="modal-dialog">-->
+<!--      <div class="modal-content">-->
+
+<!--        &lt;!&ndash; Modal Header &ndash;&gt;-->
+<!--        <div class="modal-header">-->
+<!--          <h4 class="modal-title">Person Delete</h4>-->
+<!--        </div>-->
+
+<!--        &lt;!&ndash; Modal body &ndash;&gt;-->
+<!--        <div class="modal-body">-->
+<!--          <div class="table" style="background-color:azure;">-->
+
+<!--            <p>!!!Person cannot be deleted!!!</p>-->
+<!--          </div>-->
+<!--        </div>-->
+
+<!--        &lt;!&ndash; Modal footer &ndash;&gt;-->
+<!--        <div class="modal-footer">-->
+<!--          &lt;!&ndash;          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click) = "deletePerson(personToDelete.personid)">Sure</button>&ndash;&gt;-->
+<!--          <button type="button" class="btn btn-success" data-bs-dismiss="modal" (click) = "hideModals()">Close</button>-->
+<!--        </div>-->
+
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->

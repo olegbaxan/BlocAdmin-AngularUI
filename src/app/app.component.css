@@ -1,0 +1,22 @@
+html {
+  overflow: hidden !important;
+}
+.container-fluid {
+  /*display: flex;*/
+}
+.side{
+  flex: 1;
+  height: 100vh;
+  color: white;
+  background-color: white;
+  overflow: scroll;
+  /*line-height: 100px;*/
+}
+
+.content{
+  flex: 15;
+  height: 100vh;
+  background-color: #fafafa;
+  overflow: scroll;
+  line-height: 20px;
+}

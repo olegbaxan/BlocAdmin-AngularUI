@@ -1,0 +1,95 @@
+<div class="container-fluid" *ngIf="tokenStorageService.isLoggedIn; else loggedOut">
+  <div class="row">
+    <div class="col-lg-12">
+
+      <div class="card">
+        <div class="row">
+          <div class="card-header">
+            <i class="fa fa-file"></i> List of available Files
+          </div>
+
+        </div>
+
+        <div class="card-body">
+<!--          <div class="row">-->
+<!--            <div class="col-2">-->
+<!--&lt;!&ndash;              <a class="btn btn-light btn-lg m-3" routerLink="add"><img src="../../../assets/img/new1.png">Add New</a>&ndash;&gt;-->
+<!--            </div>-->
+<!--            <div class="col-4" >-->
+<!--              <form class="d-flex" action="list" method="get">-->
+<!--                <div class="row pt-4 dataTables_length bs-select" id="dtBasicExample_length">-->
+<!--                  <div class="col-8" >-->
+<!--                    Items per Page:-->
+<!--                  </div>-->
+<!--                  <div class="col-4" >-->
+<!--                    <select (change)="handlePageSizeChange($event)">-->
+<!--                      <option *ngFor="let size of pageSizes" [ngValue]="size">-->
+<!--                        {{ size }}-->
+<!--                      </option>-->
+<!--                    </select>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </form>-->
+<!--            </div>-->
+
+<!--            <div class="col-6 pt-4">-->
+<!--              <form class="d-flex" action="list" method="get">-->
+<!--                &lt;!&ndash;            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="query" #search>&ndash;&gt;-->
+<!--                <input type="text" class="form-control" placeholder="Search word" [(ngModel)]="title" name="query"/>-->
+<!--                <button class="btn btn-success btn-lg text-center me-3 ms-3" type="button" (click)="retrieveFiles()">Search-->
+<!--                </button>-->
+<!--                <a href="/person" class="btn btn-primary btn-lg text-center" role="button" aria-pressed="true">Clear</a>-->
+<!--              </form>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <nav>-->
+<!--            <ul class="pagination">-->
+<!--              <div class="col-md-12 paginationCss">-->
+<!--                <pagination-controls-->
+<!--                  previousLabel="Prev"-->
+<!--                  nextLabel="Next"-->
+<!--                  [responsive]="true"-->
+<!--                  (pageChange)="handlePageChange($event)"-->
+<!--                  (pageBoundsCorrection)="handlePageChange($event)"-->
+<!--                ></pagination-controls>-->
+<!--              </div>-->
+<!--            </ul>-->
+<!--          </nav>-->
+          <table class="table table-bordered table-responsive-sm table-striped table-sm">
+            <thead align="center">
+            <tr>
+              <th>File ID</th>
+              <th>File Name</th>
+              <th>File type</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let file of files|paginate : {
+                  itemsPerPage: pageSize,
+                  currentPage: page,
+                  totalItems: count
+                };
+                let i = index"
+                align="center" style="font-size: 18px">
+              <td *ngIf="file.invoiceFile.fileid">{{file.invoiceFile.fileid}}</td>
+              <td>{{file.name}}</td>
+              <td>{{file.type}}</td>
+            </tr>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+      <div class="card-footer">
+
+      </div>
+    </div>
+
+  </div>
+</div>
+<ng-template #loggedOut>
+  Please login.
+</ng-template>
+
+
+

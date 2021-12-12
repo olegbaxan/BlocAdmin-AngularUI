@@ -1,0 +1,471 @@
+<div class="form_wrapper">
+  <div class="form_container">
+    <div class="title_container">
+      <h2>Invoice Add Form</h2>
+    </div>
+
+    <div class="row clearfix">
+      <div class="">
+        <form *ngIf="!isSuccessful"
+              name="form"
+              (ngSubmit)="f.form.valid && saveInvoice()"
+              #f="ngForm"
+              novalidate>
+          <div class="input_field"><span><i aria-hidden="true"></i></span>
+            <label for="invnum">Invoice Number</label>
+            <input
+              id="invnum"
+              type="text"
+              name="invnum"
+              [(ngModel)]="form.invoiceNumber"
+              (ngModelChange)="checkInvoiceNo(form.invoiceNumber)"
+              placeholder="Invoice Number"
+              required
+              #invnum="ngModel"
+              autofocus
+            />
+          </div>
+          <div class="alert-danger" *ngIf="invoiceExist">
+            <div>Invoice Number already used</div>
+          </div>
+          <div class="alert-danger" *ngIf="invnum.errors && f.submitted">
+            <div *ngIf="invnum.errors.required">Invoice number is required</div>
+          </div>
+          <div class="input_field"><span><i aria-hidden="true"></i></span>
+            <label for="supplier">Supplier</label>
+            <ng-select id="supplier" [items]="suppliers"
+                       bindLabel="supplierName"
+                       placeholder="Select Supplier"
+                       appendTo="body"
+                       #supp="ngModel"
+                       required
+                       autofocus
+                       [hideSelected]="true"
+                       [searchable]="true"
+                       [multiple]="false"
+                       [(ngModel)]=form.supplier
+                       [ngModelOptions]="{standalone: true}">
+            </ng-select>
+
+            <div class="alert-danger" *ngIf="supp.errors && f.submitted">
+              <div *ngIf="supp.errors.required">Supplier is required</div>
+            </div>
+          </div>
+
+          <div class="input_field form-group radio_option">
+            <label class="col-md-3 col-form-label" for="inline-radios">Has Meter</label>
+              <div class="form-check form-check-inline mr-1" id="inline-radios">
+                <input type="radio" name="inline-radios" [(ngModel)]="hasMeter" [value]="true" id="inlineRadio1" (change)="changeMeter()"/>
+                <label class="form-check-label p-1" for="inlineRadio1" >YES</label>
+              </div>
+              <div class="form-check form-check-inline mr-1" >
+                <input type="radio" name="inline-radios" [(ngModel)]="hasMeter" [value]="false" id="inlineRadio2" (change)="changeMeter()"/>
+                <label class="form-check-label  p-1" for="inlineRadio2">NO</label>
+              </div>
+            </div>
+
+          <div class="input_field"><span><i aria-hidden="true"></i></span>
+            <label for="building">Building</label>
+            <ng-select id="building" [items]="buildings"
+                       bindLabel="bindName"
+                       placeholder="Select Building"
+                       appendTo="body"
+                       [searchable]="true"
+                       [multiple]="true"
+                       #build="ngModel"
+                       required
+                       autofocus
+                       [hideSelected]="true"
+                       (change)="getAllBuildingMeters(form.buildings)"
+                       [(ngModel)]=form.buildings
+                       [ngModelOptions]="{standalone: true}">
+              <ng-option *ngFor="let building of buildings"
+                         [value]="building">{{building?.address?.city}} {{building?.address?.raion}} {{building?.address?.street}} {{building?.address?.houseNumber}}
+                <span *ngIf="building?.address?.entranceNo">/{{building?.address?.entranceNo}}</span></ng-option>
+            </ng-select>
+
+            <div class="alert-danger" *ngIf="build.errors && f.submitted">
+              <div *ngIf="build.errors.required">Building is required</div>
+            </div>
+          </div>
+          <div *ngIf="hasMeter">
+          <div class="input_field" ><span><i aria-hidden="true" ></i></span>
+            <label for="meter">Meter</label>
+            <ng-select id="meter"
+                       bindLabel="bindName"
+                       placeholder="Select Meter"
+                       appendTo="body"
+                       [searchable]="true"
+                       [multiple]="false"
+                       #met="ngModel"
+                       required
+                       autofocus
+                       [(ngModel)]=form.meter
+                       (change)="getPreviousValue(form.meter)"
+                       [ngModelOptions]="{standalone: true}">
+              <ng-option *ngFor="let meter of buildMeters" [value]="meter">{{meter.serial}}</ng-option>
+
+            </ng-select>
+
+            <div class="alert-danger" *ngIf="met.errors && f.submitted">
+              <div *ngIf="met.errors.required">Meter is required</div>
+            </div>
+          </div>
+          <div class="input_field" ><span><i aria-hidden="true"></i></span>
+            <label for="prev">Meter Previous Data</label>
+            <input
+              id="prev"
+              type="number"
+              name="prev"
+              [(ngModel)]="form.meterDataPrevious"
+              placeholder="Meter Previous Data"
+              required
+              #prev="ngModel"
+              autofocus
+            />
+          </div>
+          <div class="alert-danger" *ngIf="prev.errors && f.submitted">
+            <div *ngIf="prev.errors.required">Previous Data is required</div>
+          </div>
+          <div class="input_field" ><span><i aria-hidden="true"></i></span>
+            <label for="curr">Current Meter Data</label>
+            <input
+              id="curr"
+              type="number"
+              name="curr"
+              [(ngModel)]="form.meterDataCurrent"
+              placeholder="Current Meter Data"
+              required
+              #curr="ngModel"
+              autofocus
+            />
+          </div>
+
+            <div *ngIf="prev>curr" class="alert-danger">Current Data must be greater then Previuos</div>
+          <div class="alert-danger" *ngIf="curr.errors && f.submitted">
+            <div *ngIf="curr.errors.required">Current Data is required</div>
+          </div>
+          </div>
+          <div class="input_field"><span><i aria-hidden="true"></i></span>
+            <label for="sum">Invoice Sum</label>
+            <input
+              id="sum"
+              type="number"
+              name="sum"
+              [(ngModel)]="form.invoiceSum"
+              placeholder="Invoice Sum"
+              required
+              #sum="ngModel"
+              autofocus
+            />
+          </div>
+          <div class="alert-danger" *ngIf="sum.errors && f.submitted">
+            <div *ngIf="sum.errors.required">Invoice sum is required</div>
+          </div>
+          <div class="input_field"><span><i aria-hidden="true" ></i></span>
+            <label for="place">Placement</label>
+            <ng-select id="place" [items]="typeOfMeterInvoices"
+                       bindLabel="name"
+                       placeholder="Select Type of Invoice"
+                       appendTo="body"
+                       [searchable]="false"
+                       [multiple]="false"
+                       required
+                       #place="ngModel"
+                       autofocus
+                       [(ngModel)]="form.typeOfMeterInvoice"
+                       [ngModelOptions]="{standalone: true}">
+            </ng-select>
+
+            <div class="alert-danger" *ngIf="place.errors && f.submitted">
+              <div *ngIf="place.errors.required">Placement is required</div>
+            </div>
+          </div>
+          <div class="input_field "><span><i aria-hidden="true"></i></span>
+            <label for="emitt">Emitted Date</label>
+            <input
+              class="dateTime"
+              id="emitt"
+              type="date"
+              name="emitt"
+              [(ngModel)]="form.emittedDate"
+              placeholder="Emitted on"
+              #emitt="ngModel"
+              autofocus
+            />
+          </div>
+          <div class="input_field"><span><i aria-hidden="true"></i></span>
+            <label for="till">Payment time</label>
+            <input
+              class="dateTime"
+              id="till"
+              type="date"
+              name="till"
+              [(ngModel)]="form.payTill"
+              placeholder="Invoice Payment limit"
+              required
+              #till="ngModel"
+              autofocus
+            />
+          </div>
+          <div class="alert-danger" *ngIf="till.errors && f.submitted">
+            <div *ngIf="till.errors.required">Payment limit time is required</div>
+          </div>
+
+<!--          File upload-->
+          <div class="input_field"><span><i aria-hidden="true" ></i></span>
+            <div class="row">
+              <label class="col-sm-3 col-form-label">File</label>
+              <div class="col-sm-6">
+                <label for="file" class="btn btn-default p-0">
+                  <input type="file" accept="image/*"  id="file" (change)="selectFiles($event)"/>
+                </label>
+              </div>
+
+              <div class="col-3">
+                <button
+                  type="button"
+                  class="btn btn-success btn-sm"
+                  [disabled]="!selectedFiles"
+                  (click)="uploadFiles()">
+                  Upload
+                </button>
+              </div>
+              <div *ngFor="let progressInfo of progressInfos" class="mb-2 col-sm-6">
+                <span>{{ progressInfo.fileName }}</span>
+                <div class="progress">
+                  <div
+                    class="progress-bar progress-bar-info progress-bar-striped"
+                    role="progressbar"
+                    attr.aria-valuenow="{{ progressInfo.value }}"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    [ngStyle]="{ width: progressInfo.value + '%' }">
+                    {{ progressInfo.value }}%
+                  </div>
+                </div>
+              </div>
+
+              <div *ngIf="message.length" class="alert alert-danger my-3" role="alert">
+                <ul *ngFor="let msg of message; let i = index">
+                  <li>{{ msg }}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="row">
+            <div class="col-6">
+              <input class="button" type="submit" value="Register"/>
+            </div>
+            <div class="col-6">
+              <input class="button" type="reset" value="Reset" (click)="backClicked()"/>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--<div class="container" *ngIf="tokenStorageService.isLoggedIn; else loggedOut">-->
+<!--  <div class="row">-->
+<!--    <div class="col-12" *ngIf="invoice"-->
+<!--         style="border: 2px solid; border-color: rgb(0, 38, 255); font-size: 20px;height: auto">-->
+
+<!--      <div class="submit-form">-->
+<!--        <div *ngIf="!submitted">-->
+<!--          <h2 class="justify-content-center m-3">Add a new Invoice</h2>-->
+
+
+<!--          <div class="form-group form-group-sm col-sm-8 m-5">-->
+<!--            <div class="row">-->
+<!--              <label for="number" class="col-sm-3 col-form-label">Invoice number</label>-->
+<!--              <div class="col-sm-9">-->
+<!--                <input type="text" min="0" class="form-control" id="number" placeholder="Enter invoice number serial"-->
+<!--                       [(ngModel)]="invoice.invoiceNumber"-->
+<!--                       name="invoiceNumber" required="true">-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+
+<!--          <div class="form-group form-group-sm col-sm-8 m-5">-->
+<!--            <div class="row">-->
+<!--              <label for="supplier" class="col-sm-3 col-form-label">Supplier</label>-->
+<!--              <div class="col-sm-9">-->
+<!--                <ng-select id="supplier"-->
+<!--                           [searchable]="true"-->
+<!--                           [multiple]="false"-->
+<!--                           [(ngModel)]=invoice.supplier>-->
+<!--                  <ng-option *ngFor="let supplier of suppliers" [value]="supplier">{{supplier.supplierName}}</ng-option>-->
+<!--                </ng-select>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="form-group row" >-->
+<!--            <label class="col-md-3 col-form-label" for="inline-radios">Has Meter</label>-->
+<!--            <div class="col-md-9 col-form-label">-->
+<!--              <div class="form-check form-check-inline mr-1" id="inline-radios">-->
+<!--                <input type="radio"  [(ngModel)]="hasMeter" [value]="true" id="inlineRadio1" (change)="changeMeter()"/>-->
+<!--                <label class="form-check-label" for="inlineRadio1">YES</label>-->
+<!--              </div>-->
+<!--              <div class="form-check form-check-inline mr-1">-->
+<!--                <input type="radio" [(ngModel)]="hasMeter" [value]="false" id="inlineRadio2" (change)="changeMeter()"/>-->
+<!--                <label class="form-check-label" for="inlineRadio2">NO</label>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+
+<!--          <div class="form-group form-group-sm col-sm-8 m-5" >-->
+<!--            <div class="row">-->
+<!--              <label for="building" class="col-sm-3 col-form-label">Buildings</label>-->
+<!--              <div class="col-sm-9">-->
+<!--                <ng-select id="building"-->
+<!--                           [searchable]="true"-->
+<!--                           [multiple]="true"-->
+<!--                           [(ngModel)]="invoice.buildings">-->
+<!--                  <ng-option *ngFor="let building of buildings"-->
+<!--                             [value]="building">{{building?.address?.city}} {{building?.address?.raion}} {{building?.address?.street}} {{building?.address?.houseNumber}}-->
+<!--                    <span *ngIf="building?.address?.entranceNo">/{{building?.address?.entranceNo}}</span></ng-option>-->
+<!--                </ng-select>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="form-group form-group-sm col-sm-8 m-5" *ngIf="hasMeter==true">-->
+<!--            <div class="row">-->
+<!--              <label for="meter" class="col-sm-3 col-form-label">Meter</label>-->
+<!--              <div class="col-sm-9">-->
+<!--                <ng-select id="meter"-->
+<!--                           [searchable]="true"-->
+<!--                           [multiple]="false"-->
+<!--                           [(ngModel)]="invoice.meter">-->
+<!--                  <ng-option *ngFor="let meter of meters" [value]="meter">{{meter.serial}}</ng-option>-->
+<!--                </ng-select>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+
+<!--          <div class="form-group form-group-sm col-sm-8 m-5" *ngIf="hasMeter==true">-->
+<!--            <div class="row">-->
+<!--              <label for="current" class="col-sm-3 col-form-label">Current Value</label>-->
+<!--              <div class="col-sm-9">-->
+<!--                <input type="number" min="1" class="form-control" id="current" placeholder="Enter meter current value"-->
+<!--                       [(ngModel)]="invoice.meterDataCurrent" name="meterDataCurrent" required="true">-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="form-group form-group-sm col-sm-8 m-5" *ngIf="hasMeter==true">-->
+<!--            <div class="row">-->
+<!--              <label for="previous" class="col-sm-3 col-form-label">Previous Value</label>-->
+<!--              <div class="col-sm-9">-->
+<!--                <input type="number" min="1" class="form-control" id="previous" placeholder="Enter meter previous value"-->
+<!--                       [(ngModel)]="invoice.meterDataPrevious" name="meterDataPrevious">-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="form-group form-group-sm col-sm-8 m-5">-->
+<!--            <div class="row">-->
+<!--              <label for="sum" class="col-sm-3 col-form-label">Total Sum</label>-->
+<!--              <div class="col-sm-9">-->
+<!--                <input type="number" min="1" class="form-control" id="sum" placeholder="Enter invoice total sum"-->
+<!--                       [(ngModel)]="invoice.invoiceSum" name="invoiceSum" required="true">-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="form-group form-group-sm col-sm-8 m-5">-->
+<!--            <div class="row">-->
+<!--              <label for="till" class="col-sm-3 col-form-label">Pay till</label>-->
+<!--              <div class="col-sm-9">-->
+<!--                <input type="date" min="1" class="form-control" id="till" placeholder="Last date for payment"-->
+<!--                       [(ngModel)]="invoice.payTill" name="payTill" required="true">-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="form-group form-group-sm col-sm-8 m-5">-->
+<!--            <div class="row">-->
+<!--              <label for="emitted" class="col-sm-3 col-form-label">Emitted day</label>-->
+<!--              <div class="col-sm-9">-->
+<!--                <input type="date" min="1" class="form-control" id="emitted" placeholder="Date for generation"-->
+<!--                       [(ngModel)]="invoice.emittedDate" name="emittedDate">-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="form-group form-group-sm col-sm-8 m-5">-->
+<!--            <div class="row">-->
+<!--              <label for="place" class="col-sm-3 col-form-label">Placement</label>-->
+<!--              <div class="col-sm-9">-->
+<!--                <ng-select class="custom" id="place" [items]="typeOfMeterInvoices"-->
+<!--                           bindLabel="name"-->
+<!--                           placeholder="Select Type of Invoice"-->
+<!--                           appendTo="body"-->
+<!--                           [searchable]="false"-->
+<!--                           [multiple]="false"-->
+<!--                           [(ngModel)]="invoice.typeOfMeterInvoice"-->
+<!--                           [ngModelOptions]="{standalone: true}">-->
+<!--                </ng-select>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+
+<!--          &lt;!&ndash;          //File list and upload&ndash;&gt;-->
+<!--          <div class="form-group form-group-sm col-sm-8 m-5">-->
+<!--            <div class="row">-->
+<!--              <label class="col-sm-3 col-form-label">File</label>-->
+<!--              <div class="col-sm-6">-->
+<!--                <label for="file" class="btn btn-default p-0">-->
+<!--                  <input type="file" accept="image/*" multiple id="file" (change)="selectFiles($event)"/>-->
+<!--                </label>-->
+<!--              </div>-->
+
+<!--              <div class="col-3">-->
+<!--                <button-->
+<!--                  class="btn btn-success btn-sm"-->
+<!--                  [disabled]="!selectedFiles"-->
+<!--                  (click)="uploadFiles()">-->
+<!--                  Upload-->
+<!--                </button>-->
+<!--              </div>-->
+<!--              &lt;!&ndash;              </div>&ndash;&gt;-->
+<!--              <div *ngFor="let progressInfo of progressInfos" class="mb-2 col-sm-6">-->
+<!--                <span>{{ progressInfo.fileName }}</span>-->
+<!--                <div class="progress">-->
+<!--                  <div-->
+<!--                    class="progress-bar progress-bar-info progress-bar-striped"-->
+<!--                    role="progressbar"-->
+<!--                    attr.aria-valuenow="{{ progressInfo.value }}"-->
+<!--                    aria-valuemin="0"-->
+<!--                    aria-valuemax="100"-->
+<!--                    [ngStyle]="{ width: progressInfo.value + '%' }">-->
+<!--                    {{ progressInfo.value }}%-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+
+<!--              <div *ngIf="message.length" class="alert alert-danger my-3" role="alert">-->
+<!--                <ul *ngFor="let msg of message; let i = index">-->
+<!--                  <li>{{ msg }}</li>-->
+<!--                </ul>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+
+<!--          <button type="submit" class="btn btn-success btn-lg m-5" (click)="saveInvoice()">Submit</button>-->
+<!--          <button type="cancel" class="btn btn-danger btn-lg m-5" routerLink="/invoices">Cancel</button>-->
+
+
+<!--          <div *ngIf="submitted">-->
+<!--            <h4>Building was submitted successfully!</h4>-->
+<!--            <button class="btn btn-success btn-lg m-5 pt-5" (click)="newInvoice()">Add new</button>-->
+<!--            <button type="cancel" class="btn btn-danger btn-lg m-5" routerLink="/invoices">Cancel</button>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+<!--<ng-template #loggedOut>-->
+<!--  Please login.-->
+<!--</ng-template>-->

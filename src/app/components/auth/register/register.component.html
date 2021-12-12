@@ -1,0 +1,212 @@
+<div class="form_wrapper">
+  <div class="form_container">
+    <div class="title_container">
+      <h2>Registration Form</h2>
+    </div>
+
+    <div class="row clearfix">
+      <div class="">
+        <form *ngIf="!isSuccessful"
+              name="form"
+              (ngSubmit)="f.form.valid && onSubmit()"
+              #f="ngForm"
+              novalidate>
+
+          <div class="input_field"> <span><i aria-hidden="true" class="fa fa-user-tag"></i></span>
+            <input
+              type="text"
+              name="username"
+              [(ngModel)]="form.username"
+              placeholder="Username"
+              required
+              minlength="3"
+              maxlength="20"
+              #username="ngModel"
+              autofocus
+              (ngModelChange)="checkUsername(form.username)"
+            />
+          </div>
+          <div class="alert-danger" *ngIf="usernameExist">
+            <div>Username already taken</div>
+          </div>
+          <div class="alert-danger" *ngIf="username.errors && f.submitted">
+            <div *ngIf="username.errors.required">Username is required</div>
+            <div *ngIf="username.errors.minlength">
+              Username must be at least 3 characters
+            </div>
+            <div *ngIf="username.errors.maxlength">
+              Username must be at most 20 characters
+            </div>
+          </div>
+
+          <div class="input_field"> <span><i aria-hidden="true" class="fa fa-envelope"></i></span>
+            <input
+              type="email"
+              placeholder="Email"
+              name="email"
+              [(ngModel)]="form.email"
+              required
+              email
+              #email="ngModel"
+            />
+            <div class="alert-danger" *ngIf="email.errors && f.submitted">
+              <div *ngIf="email.errors.required">Email is required</div>
+              <div *ngIf="email.errors.email">
+                Email must be a valid email address
+              </div>
+            </div>
+          </div>
+          <div class="input_field"> <span><i aria-hidden="true" class="fa fa-lock"></i></span>
+            <input
+              type="password"
+              placeholder="Password"
+              name="password"
+              [(ngModel)]="form.password"
+              required
+              minlength="6"
+              #password="ngModel"
+            />
+            <div class="alert-danger" *ngIf="password.errors && f.submitted">
+              <div *ngIf="password.errors.required">Password is required</div>
+              <div *ngIf="password.errors.minlength">
+                Password must be at least 6 characters
+              </div>
+            </div>
+          </div>
+          <div class="input_field"> <span><i aria-hidden="true" class="fa fa-lock"></i></span>
+            <input
+              type="password"
+              placeholder="Re-type Password"
+              name="password"
+              [(ngModel)]="form.password2"
+              required
+              minlength="6"
+              #password2="ngModel"
+            />
+            <div class="alert-danger" *ngIf="f.submitted">
+              <div *ngIf="password2!=password">Password do not match</div>
+            </div>
+          </div>
+          <div class="row clearfix">
+            <div class="col_half">
+              <div class="input_field"> <span><i aria-hidden="true" class="fa fa-user"></i></span>
+                <input
+                  type="text"
+                  placeholder="First Name"
+                  name="name"
+                  [(ngModel)]="form.name"
+                  required
+                  minlength="3"
+                  maxlength="30"
+                  #name="ngModel"
+
+                />
+              </div>
+              <div class="alert-danger" *ngIf="name.errors && f.submitted">
+                <div *ngIf="name.errors.required">First Name is required</div>
+                <div *ngIf="name.errors.minlength">
+                  First Name must be at least 3 characters
+                </div>
+              </div>
+            </div>
+            <div class="col_half">
+              <div class="input_field"> <span><i aria-hidden="true" class="fa fa-user"></i></span>
+                <input
+                  type="text"
+                  placeholder="Last Name"
+                  name="surname"
+                  [(ngModel)]="form.surname"
+                  required
+                  minlength="3"
+                  #surname="ngModel"
+                />
+              </div>
+              <div class="alert-danger" *ngIf="surname.errors && f.submitted">
+                <div *ngIf="surname.errors.required">Last Name is required</div>
+                <div *ngIf="surname.errors.minlength">
+                  Last Name must be at least 3 characters
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="row clearfix">
+            <div class="col_half">
+              <div class="input_field"> <span><i aria-hidden="true" class="fa fa-user-secret"></i></span>
+                <input
+                  type="text"
+                  placeholder="IDNP"
+                  name="idnp"
+                  [(ngModel)]="form.idnp"
+                  required
+                  minlength="13"
+                  maxlength="13"
+                  #idnp="ngModel"
+                  (ngModelChange)="checkIDNP(form.idnp)"
+                />
+              </div>
+              <div class="alert-danger" *ngIf="idnpExist">
+                <div>IDNP already taken</div>
+              </div>
+              <div class="alert-danger" *ngIf="idnp.errors && f.submitted">
+                <div *ngIf="idnp.errors.required">IDNP is required</div>
+                <div *ngIf="idnp.errors.minlength">
+                  IDNP must be 13 characters
+                </div>
+              </div>
+            </div>
+            <div class="col_half">
+              <div class="input_field"> <span><i aria-hidden="true" class="fa fa-mobile-alt"></i></span>
+                <input
+                  type="text"
+                  placeholder="Mobile"
+                  name="mobile"
+                  [(ngModel)]="form.mobile"
+                  required
+                  minlength="9"
+                  #mobile="ngModel"
+                />
+              </div>
+              <div class="alert-danger" *ngIf="mobile.errors && f.submitted">
+                <div *ngIf="mobile.errors.required">Mobile number is required</div>
+                <div *ngIf="mobile.errors.minlength">
+                  Mobile must be at least 9 numbers
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="input_field"> <span><i aria-hidden="true" class="fa fa-envelope-open-text"></i></span>
+            <textarea
+              [(ngModel)]="form.description"
+              #description="ngModel"
+              name="description"
+              required
+              wrap="hard"
+              oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'
+              maxlength="200"
+              minlength="10"
+              placeholder="Some words about why are you register here"
+            >
+
+        </textarea>
+            <div class="alert-danger" *ngIf="description.errors && f.submitted">
+              <div *ngIf="description.errors.required">Description is required</div>
+              <div *ngIf="description.errors.minlength">
+                Please enter at least 10 characters
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <input class="button" type="submit" value="Register"/>
+            </div>
+            <div class="col-6">
+              <input class="button" type="reset" value="Reset" (click)="backClicked()"/>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

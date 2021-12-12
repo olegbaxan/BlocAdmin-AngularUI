@@ -1,0 +1,149 @@
+<div class="form_wrapper">
+  <div class="form_container">
+    <div class="title_container">
+      <h2>Building Add Form</h2>
+    </div>
+
+    <div class="row clearfix">
+      <div class="">
+        <form *ngIf="!isSuccessful"
+              name="form"
+              (ngSubmit)="f.form.valid && saveBuilding()"
+              #f="ngForm"
+              novalidate>
+          <div class="input_field"><span><i aria-hidden="true"></i></span>
+            <div class="form-group">
+              <label for="address">Address</label>
+              <ng-select
+                id="address"
+                required="true"
+                [searchable]="true"
+                [multiple]="false"
+                placeholder="Select Address"
+                #address="ngModel"
+                autofocus
+                [ngModelOptions]="{standalone: true}"
+                [(ngModel)]=selectedAddress>
+                <ng-option *ngFor="let address of addresses"
+                           [value]="address">{{address?.city}} {{address?.raion}} {{address?.street}} {{address?.houseNumber}}
+                  <span *ngIf="address?.entranceNo">/{{address?.entranceNo}}</span></ng-option>
+              </ng-select>
+            </div>
+
+            <div class="alert-danger" *ngIf="address.errors && f.submitted">
+              <div *ngIf="address.errors.required">Address is required</div>
+            </div>
+          </div>
+          <label for="floor">Floors Quantity</label>
+          <div class="input_field"> <span><i aria-hidden="true"></i></span>
+            <input
+              id="floor"
+              type="number"
+              placeholder="Floor numbers"
+              name="floor"
+              [(ngModel)]="form.floors"
+              required
+              autofocus
+              #floor="ngModel"
+              min="0"
+            />
+            <div class="alert-danger" *ngIf="floor.errors && f.submitted">
+              <div *ngIf="floor.errors.required">Floor numbers is required</div>
+            </div>
+          </div>
+          <label for="flat">Flats Quantity</label>
+          <div class="input_field"> <span><i aria-hidden="true"></i></span>
+            <input
+              id="flat"
+              type="number"
+              placeholder="Flats numbers"
+              name="flat"
+              [(ngModel)]="form.flats"
+              required
+              autofocus
+              #flat="ngModel"
+              min="0"
+            />
+            <div class="alert-danger" *ngIf="flat.errors && f.submitted">
+              <div *ngIf="flat.errors.required">Flat numbers is required</div>
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="col-6">
+          <input class="button" type="submit" value="Register"/>
+            </div>
+            <div class="col-6">
+          <input class="button" type="reset" value="Reset" (click)="backClicked()"/>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--<div class="container" *ngIf="tokenStorageService.isLoggedIn; else loggedOut">-->
+<!--  <div class="row">-->
+<!--    <div class="col-12" *ngIf="building" style=" font-size: 20px;height: auto">-->
+
+<!--      <div class="submit-form">-->
+<!--        <div *ngIf="!submitted">-->
+<!--          <h2 class="justify-content-center m-3">Create a new Building</h2>-->
+<!--          -->
+<!--          <div class="form-group form-group-sm col-sm-8 m-5">-->
+<!--            <div class="row">-->
+<!--              <label for="address" class="col-sm-3 col-form-label control-label">Address</label>-->
+<!--              <div class="col-sm-9">-->
+<!--                <ng-select  id="address"-->
+<!--                           required="true"-->
+<!--                           [searchable]="true"-->
+<!--                           [multiple]="false"-->
+<!--                           [(ngModel)]=selectedAddress>-->
+<!--                  <ng-option *ngFor="let address of addresses"-->
+<!--                             [value]="address">{{address?.city}} {{address?.raion}} {{address?.street}} {{address?.houseNumber}}-->
+<!--                    <span *ngIf="address?.entranceNo">/{{address?.entranceNo}}</span></ng-option>-->
+<!--                </ng-select>-->
+<!--              </div>-->
+<!--            </div>-->
+
+<!--          </div>-->
+
+<!--          <div class="form-group form-group-sm col-sm-8 m-5">-->
+<!--            <div class="row">-->
+<!--              <label for="floor" class="col-sm-3 col-form-label">Floor Numbers</label>-->
+<!--              <div class="col-sm-9">-->
+<!--                <input type="number" min="0" class="form-control" id="floor" placeholder="Enter floors number" [(ngModel)]="building.floors"-->
+<!--                       name="floors" required="true">-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="form-group form-group-sm col-sm-8 m-5">-->
+<!--            <div class="row">-->
+<!--              <label for="flat" class="col-sm-3 col-form-label">Flat Numbers</label>-->
+<!--              <div class="col-sm-9">-->
+<!--                <input type="number" min="0" class="form-control" id="flat" placeholder="Enter flats number"-->
+<!--                       [(ngModel)]="building.flats" name="flats" required="true">-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+
+<!--          <button type="submit" class="btn btn-success btn-lg m-5" (click)="saveBuilding()">Submit</button>-->
+<!--          <button type="cancel" class="btn btn-danger btn-lg m-5" routerLink="/buildings">Cancel</button>-->
+<!--        </div>-->
+
+<!--        <div *ngIf="submitted">-->
+<!--          <h4>Building was submitted successfully!</h4>-->
+<!--          <button class="btn btn-success btn-lg m-5 pt-5" (click)="newBuilding()">Add new</button>-->
+<!--          <button type="cancel" class="btn btn-danger btn-lg m-5" routerLink="/buildings">Cancel</button>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+<!--<ng-template #loggedOut>-->
+<!--  Please login.-->
+<!--</ng-template>-->
+

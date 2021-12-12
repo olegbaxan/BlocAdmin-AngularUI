@@ -1,0 +1,217 @@
+<div class="form_wrapper">
+  <div class="form_container">
+    <div class="title_container">
+      <h2>Building Edit Form</h2>
+    </div>
+
+    <div class="row clearfix">
+      <div class="">
+        <form *ngIf="!isSuccessful"
+              name="form"
+              (ngSubmit)="f.form.valid && updateSupplier(f)"
+              #f="ngForm"
+              novalidate>
+          <label for="name">Supplier Name</label>
+          <div class="input_field"> <span><i aria-hidden="true"></i></span>
+            <input
+              id="name"
+              type="text"
+              placeholder="Enter Supplier Name"
+              name="supplierName"
+              [(ngModel)]="supplier.supplierName"
+              required
+              autofocus
+              #name="ngModel"
+            />
+            <div class="alert-danger" *ngIf="name.errors && f.submitted">
+              <div *ngIf="name.errors.required">Supplier name is required</div>
+            </div>
+          </div>
+          <label for="iban">Supplier IBAN</label>
+          <div class="input_field"> <span><i aria-hidden="true"></i></span>
+            <input
+              id="iban"
+              type="text"
+              placeholder="Enter Supplier IBAN"
+              name="iban"
+              [(ngModel)]="supplier.iban"
+              required
+              autofocus
+              #iban="ngModel"
+            />
+            <div class="alert-danger" *ngIf="iban.errors && f.submitted">
+              <div *ngIf="iban.errors.required">Supplier IBAN is required</div>
+            </div>
+          </div>
+          <label for="bank">Bank Code</label>
+          <div class="input_field"> <span><i aria-hidden="true"></i></span>
+            <input
+              id="bank"
+              type="text"
+              placeholder="Enter Supplier Name"
+              name="bank"
+              [(ngModel)]="supplier.bankCode"
+              required
+              autofocus
+              #bank="ngModel"
+            />
+            <div class="alert-danger" *ngIf="bank.errors && f.submitted">
+              <div *ngIf="bank.errors.required">Supplier Bank Code is required</div>
+            </div>
+          </div>
+          <label for="fiscal">Fiscal Code</label>
+          <div class="input_field"> <span><i aria-hidden="true"></i></span>
+            <input
+              id="fiscal"
+              type="text"
+              placeholder="Enter Supplier Fiscal Code"
+              name="fiscal"
+              [(ngModel)]="supplier.fiscalCode"
+              required
+              autofocus
+              #fiscal="ngModel"
+            />
+            <div class="alert-danger" *ngIf="fiscal.errors && f.submitted">
+              <div *ngIf="fiscal.errors.required">Supplier Fiscal Code is required</div>
+            </div>
+          </div>
+          <label for="details">Details</label>
+          <div class="input_field"> <span><i aria-hidden="true"></i></span>
+            <input
+              id="details"
+              type="text"
+              placeholder="Enter Supplier Details"
+              name="details"
+              [(ngModel)]="supplier.details"
+              autofocus
+              #details="ngModel"
+            />
+          </div>
+          <div class="input_field"><span><i aria-hidden="true"></i></span>
+            <div class="form-group">
+              <label for="address">Address</label>
+              <ng-select
+                id="address"
+                required="true"
+                [items]="addresses"
+                bindLabel="bindName"
+                [searchable]="true"
+                [multiple]="false"
+                placeholder="Select Address"
+                #address="ngModel"
+                autofocus
+                [ngModelOptions]="{standalone: true}"
+                [(ngModel)]=selectedAddress>
+                <ng-option *ngFor="let address of addresses"
+                           [value]="address">{{address?.city}} {{address?.raion}} {{address?.street}} {{address?.houseNumber}}
+                  <span *ngIf="address?.entranceNo">/{{address?.entranceNo}}</span></ng-option>
+
+              </ng-select>
+            </div>
+
+            <div class="alert-danger" *ngIf="address.errors && f.submitted">
+              <div *ngIf="address.errors.required">Address is required</div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <input class="button" type="submit" value="Register"/>
+            </div>
+            <div class="col-6">
+              <input class="button" type="reset" value="Reset" (click)="backClicked()"/>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!--<div class="container" *ngIf="tokenStorageService.isLoggedIn; else loggedOut">-->
+<!--&lt;!&ndash;<div class="container" >&ndash;&gt;-->
+<!--  <div class="col-12" *ngIf="supplier"-->
+<!--       style="border: 2px solid; border-color: rgb(0, 38, 255); font-size: 20px;height: auto">-->
+<!--    <h2 class="justify-content-center m-3">Address attributes to Edit</h2>-->
+<!--    <form (ngSubmit)="updateSupplier(playlistForm)" #playlistForm="ngForm">-->
+<!--      <div class="form-group form-group-sm col-sm-6 m-5 ">-->
+<!--        <div class="row">-->
+<!--          <label for="supplierName" class="col-sm-3 col-form-label">Supplier Name</label>-->
+<!--          <div class="col-sm-9">-->
+<!--            <input type="text" class="form-control" id="supplierName" [(ngModel)]="supplier.supplierName" name="supplierName">-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="form-group form-group-sm col-sm-6 m-5">-->
+<!--        <div class="row">-->
+<!--          <label for="iban" class="col-sm-3 col-form-label">IBAN</label>-->
+<!--          <div class="col-sm-9">-->
+<!--            <input type="text" class="form-control" id="iban" placeholder="Enter IBAN" [(ngModel)]="supplier.iban"-->
+<!--                   name="iban">-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="form-group form-group-sm col-sm-6 m-5">-->
+<!--        <div class="row">-->
+<!--          <label for="fiscalcode" class="col-sm-3 col-form-label">Fiscal Code</label>-->
+<!--          <div class="col-sm-9">-->
+<!--            <input type="text" class="form-control" id="fiscalcode" placeholder="Enter Fiscal Code"-->
+<!--                   [(ngModel)]="supplier.fiscalCode" name="fiscalCode">-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--      <div class="form-group form-group-sm col-sm-6 m-5">-->
+<!--        <div class="row">-->
+<!--          <label for="bankcode" class="col-sm-3 col-form-label">Bank Code</label>-->
+<!--          <div class="col-sm-9">-->
+<!--            <input type="text" class="form-control" id="bankcode" placeholder="Enter Bank Code" [(ngModel)]="supplier.bankCode" name="bankCode">-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="form-group form-group-sm col-sm-6 m-5">-->
+<!--        <div class="row">-->
+<!--          <label for="details" class="col-sm-3 col-form-label">Additional Info</label>-->
+<!--          <div class="col-sm-9">-->
+<!--            <input type="text" class="form-control" id="details" placeholder="Enter Addtional Information" [(ngModel)]="supplier.details" name="details">-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="form-group form-group-sm col-sm-6 m-5">-->
+<!--        <div class="row">-->
+<!--          <label for="address" class="col-sm-3 col-form-label">Address</label>-->
+<!--          <div class="col-sm-9">-->
+<!--            <ng-select class="custom" id="address" [items]="addresses"-->
+<!--                       bindLabel="bindName"-->
+<!--                       placeholder=""-->
+<!--                       appendTo="body"-->
+<!--                       [searchable]="true"-->
+<!--                       [multiple]="false"-->
+<!--                       [(ngModel)]=selectedAddress-->
+<!--                       [ngModelOptions]="{standalone: true}">-->
+<!--              <ng-option *ngFor="let address of addresses" [value]="address">{{address.city}} {{address.raion}} {{address.street}} {{address.houseNumber}}<span *ngIf="supplier?.address?.entranceNo">/{{supplier?.address?.entranceNo}}</span></ng-option>-->
+
+<!--            </ng-select>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--      <button type="submit" class="btn btn-success m-5 btn-lg" (click)="updateSupplier(playlistForm)">Submit</button>-->
+<!--      <button type="cancel" class="btn btn-danger m-5  btn-lg" routerLink="/suppliers">Cancel</button>-->
+
+<!--    </form>-->
+<!--  </div>-->
+<!--</div>-->
+
+
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--<div *ngIf="!supplier">-->
+<!--  <br/>-->
+<!--  <p>Cannot access this Supplier...</p>-->
+<!--</div>-->
+
+<!--<ng-template #loggedOut>-->
+<!--  Please login.-->
+<!--</ng-template>-->
+
+
+
+

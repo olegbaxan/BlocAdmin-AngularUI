@@ -1,0 +1,253 @@
+<div class="container-fluid" *ngIf="tokenStorageService.isLoggedIn; else loggedOut">
+  <div class="row">
+    <div class="col-lg-12">
+
+      <div class="card">
+        <div class="row">
+          <div class="card-header">
+            <i class="fa fa-building"></i> List of Bulk Meter Data
+          </div>
+
+        </div>
+
+        <div class="card-body">
+          <div class="row">
+            <div class="col-5 pt-4">
+              <form #supp_form class="d-flex" action="list" method="get">
+                <div class="col-sm-7">
+                  <ng-select
+                    (change)="getAllInvoices()"
+                    [searchable]="true"
+                    [multiple]="false"
+                    placeholder="Select supplier"
+                    [(ngModel)]=selectedSupplier
+                    [ngModelOptions]="{standalone: true}">
+                    <ng-option *ngFor="let supplier of suppliers"
+                               [value]="supplier">{{supplier.supplierName}}</ng-option>
+                  </ng-select>
+                </div>
+                <div class="col-sm-7" *ngIf="selectedSupplier">
+                  <ng-select
+                    [searchable]="false"
+                    [multiple]="false"
+                    placeholder="Select Invoice"
+                    [(ngModel)]=selectedInvoice
+                    [ngModelOptions]="{standalone: true}">
+                    <ng-option *ngFor="let invoice of invoices"
+                               [value]="invoice">{{invoice.invoiceNumber}} {{invoice.emittedDate}}</ng-option>
+                  </ng-select>
+                </div>
+                <div class="col-sm-9" *ngIf="selectedInvoice">
+                  <label>Total : {{selectedInvoice.countData}} Units | Sum : {{selectedInvoice.invoiceSum}} MDL</label>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-5 pt-4">
+              <form class="d-flex" action="list" method="get">
+                <div class="col-sm-12">
+                  <ng-select
+                    [searchable]="true"
+                    [multiple]="true"
+                    placeholder="Select the building"
+                    [(ngModel)]=selectedBuildings
+                    [ngModelOptions]="{standalone: true}">
+                    <ng-option *ngFor="let building of buildings"
+                               [value]="building">{{building?.address?.city}} {{building?.address?.raion}} {{building?.address?.street}} {{building?.address?.houseNumber}}
+                      <span *ngIf="building?.address?.entranceNo">/{{building?.address?.entranceNo}}</span></ng-option>
+                  </ng-select>
+                </div>
+<!--                <div class="col-sm-7" *ngIf="hasEntrances">-->
+<!--                  <ng-select-->
+<!--                    [searchable]="false"-->
+<!--                    [multiple]="false"-->
+<!--                    placeholder="Select the ladder"-->
+<!--                    [(ngModel)]=selectedEntrance-->
+<!--                    [ngModelOptions]="{standalone: true}">-->
+<!--                    <ng-option *ngFor="let entrance of entrances;let i;" [value]="entrance">{{entrance}}</ng-option>-->
+<!--                  </ng-select>-->
+<!--                </div>-->
+
+              </form>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col-8 pt-3 pb-2">
+              <button class="btn btn-success btn-lg text-center me-3"
+                      [disabled]="!selectedSupplier || !selectedBuildings" type="button" (click)="getFilteredMeters(selectedBuildings)">
+                Search
+              </button>
+              <button class="btn btn-warning btn-lg text-center mr-3" type="reset" (click)="resetValues()">Reset
+              </button>
+              <button class="btn btn-danger btn-lg text-center mr-3" type="cancel" (click)="backClicked()">Cancel
+              </button>
+              <button class="btn btn-primary btn-lg text-center mr-3" [disabled]="!selectedInvoice" type="submit"
+                      (click)="saveInvoiceData()">Save Invoices
+              </button>
+            </div>
+          </div>
+          <div>
+            <table class="table table-bordered table-responsive-sm table-striped table-sm">
+              <thead align="center">
+              <tr>
+                <th class="col-1">Meter</th>
+                <th class="col-1">Previous Value</th>
+                <th class="col-1">Current Value</th>
+                <th class="col-1">Difference</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let md of metersdata
+                              let i = index"
+                  align="center" style="font-size: 18px">
+                <td *ngIf="md.meter">Flat: {{md.meter.flat?.flatNumber}} Seria: {{md.meter.serial}}</td>
+                <td>{{md.previousValue}}</td>
+                <td>
+                  <input type="number" min="1" class="form-control" id="initial"
+                         (change)="onChangeEvent($event,md.meterdataid)" [(ngModel)]="md.currentValue"
+                         name="currentValue" required="true">
+                </td>
+                <td *ngIf="md">{{md?.meterValue}}</td>
+
+
+              </tr>
+              <tr>
+                <td colspan="3" class="text-right"><b>Total:</b></td>
+                <td class="text-center">{{total}}</td>
+              </tr>
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+        <div class="card-footer">
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<ng-template #loggedOut>
+  Please login.
+</ng-template>
+
+
+<!--&lt;!&ndash;<div class="container-fluid" *ngIf="isLoggedIn; else loggedOut">&ndash;&gt;-->
+<!--  <div class="container-fluid">-->
+<!--  <div class="row">-->
+<!--    <h2 class="pt-3">List of Bulk Meters Data</h2>-->
+<!--    <div class="col-12" style="border: 2px solid; border-color: rgb(0, 38, 255);font-size: large">-->
+<!--      <div class="row">-->
+<!--        <div class="col-5 pt-4">-->
+<!--          <form #supp_form class="d-flex" action="list" method="get">-->
+<!--            &lt;!&ndash;            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="query" #search>&ndash;&gt;-->
+<!--            <div class="col-sm-7">-->
+<!--              <ng-select-->
+<!--                (change)="getAllInvoices()"-->
+<!--                [searchable]="true"-->
+<!--                [multiple]="false"-->
+<!--                placeholder="Select supplier"-->
+<!--                [(ngModel)]=selectedSupplier-->
+<!--                [ngModelOptions]="{standalone: true}">-->
+<!--                <ng-option *ngFor="let supplier of suppliers" [value]="supplier">{{supplier.supplierName}}</ng-option>-->
+<!--              </ng-select>-->
+<!--            </div>-->
+<!--            <div class="col-sm-7" *ngIf="selectedSupplier">-->
+<!--              <ng-select-->
+<!--                [searchable]="false"-->
+<!--                [multiple]="false"-->
+<!--                placeholder="Select Invoice"-->
+<!--                [(ngModel)]=selectedInvoice-->
+<!--                [ngModelOptions]="{standalone: true}">-->
+<!--                <ng-option *ngFor="let invoice of invoices" [value]="invoice">{{invoice.invoiceNumber}} {{invoice.emittedDate}}</ng-option>-->
+<!--              </ng-select>-->
+<!--            </div>-->
+<!--            <div class="col-sm-9" *ngIf="selectedInvoice">-->
+<!--              <label>Total : {{selectedInvoice.countData}} Units | Sum : {{selectedInvoice.invoiceSum}} MDL</label>-->
+<!--            </div>-->
+<!--          </form>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="row">-->
+<!--        <div class="col-5 pt-4">-->
+<!--          <form class="d-flex" action="list" method="get">-->
+<!--            <div class="col-sm-7">-->
+<!--              <ng-select-->
+<!--                (change)="getAllFlats()"-->
+<!--                [searchable]="true"-->
+<!--                [multiple]="false"-->
+<!--                placeholder="Select the building"-->
+<!--                [(ngModel)]=selectedBuildings-->
+<!--                [ngModelOptions]="{standalone: true}">-->
+<!--                <ng-option *ngFor="let building of buildings" [value]="building">{{building?.address?.city}} {{building?.address?.raion}} {{building?.address?.street}} {{building?.address?.houseNumber}}-->
+<!--                  <span *ngIf="building?.address?.entranceNo">/{{building?.address?.entranceNo}}</span></ng-option>
+</ng-select>-->
+<!--            </div>-->
+<!--            <div class="col-sm-7" *ngIf="hasEntrances">-->
+<!--              <ng-select-->
+<!--                [searchable]="false"-->
+<!--                [multiple]="false"-->
+<!--                placeholder="Select the ladder"-->
+<!--                [(ngModel)]=selectedEntrance-->
+<!--                [ngModelOptions]="{standalone: true}">-->
+<!--                <ng-option *ngFor="let entrance of entrances;let i;" [value]="entrance">{{entrance}}</ng-option>-->
+<!--              </ng-select>-->
+<!--            </div>-->
+
+<!--          </form>-->
+<!--        </div>-->
+
+<!--      </div>-->
+<!--      <div class="row">-->
+<!--        <div class="col-8 pt-3">-->
+<!--          <button class="btn btn-success btn-lg text-center me-3" [disabled]="!selectedSupplier || !selectedBuildings" type="button" (click)="retrieveMeterData()">Search</button>-->
+<!--          <button class="btn btn-warning btn-lg text-center mr-3" type="reset" (click)="resetValues()">Reset</button>-->
+<!--          <button class="btn btn-danger btn-lg text-center mr-3" type="cancel" (click)="backClicked()">Cancel</button>-->
+<!--          <button class="btn btn-primary btn-lg text-center mr-3" [disabled]="!selectedInvoice" type="submit" (click)="saveInvoiceData()">Save Invoices</button>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div>-->
+<!--        <table class="table table-bordered table-hover table-primary table-responsive table-responsive-lg">-->
+<!--          <thead class="thead-dark">-->
+<!--          <tr align="center" style="font-size: 20px">-->
+<!--            <th class="col-1">Meter</th>-->
+<!--            <th class="col-1">Previous Value</th>-->
+<!--            <th class="col-1">Current Value</th>-->
+<!--            <th class="col-1">Difference</th>-->
+<!--          </tr>-->
+<!--          </thead>-->
+
+
+<!--          <tr *ngFor="let md of metersdata-->
+<!--                let i = index"-->
+<!--              align="center" style="font-size: 18px">-->
+<!--            <td *ngIf="md.meter">Flat: {{md.meter.flat?.flatNumber}} Seria: {{md.meter.serial}}</td>-->
+<!--            <td>{{md.previousValue}}</td>-->
+<!--            <td>-->
+<!--              <input type="number" min="1" class="form-control" id="initial"-->
+<!--                     (change)="onChangeEvent($event,md.meterdataid)" [(ngModel)]="md.currentValue" name="currentValue" required="true">-->
+<!--            </td>-->
+<!--            <td *ngIf="md">{{md?.meterValue}}</td>-->
+
+
+<!--          </tr>-->
+<!--          <tr>-->
+<!--            <td colspan="3" class="text-right"> <b>Total:</b></td>-->
+<!--            <td class="text-center">{{total}}</td>-->
+<!--          </tr>-->
+<!--        </table>-->
+
+<!--      </div>-->
+
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+<!--<ng-template #loggedOut>-->
+<!--  Please login.-->
+<!--</ng-template>-->
+
+
+

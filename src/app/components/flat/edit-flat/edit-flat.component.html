@@ -1,0 +1,283 @@
+<div class="form_wrapper">
+  <div class="form_container">
+    <div class="title_container">
+      <h2>Flat Edit Form</h2>
+    </div>
+
+    <div class="row clearfix">
+      <div class="">
+        <form *ngIf="!isSuccessful"
+              name="form"
+              (ngSubmit)="f.form.valid && updateFlat(f)"
+              #f="ngForm"
+              novalidate>
+
+          <div class="input_field"><span><i aria-hidden="true"></i></span>
+            <label for="buildings">Building</label>
+            <ng-select
+              [items]="buildings"
+              id="buildings"
+              bindLabel="bindName"
+              required
+              [searchable]="true"
+              [multiple]="false"
+              #building="ngModel"
+              autofocus
+              [ngModelOptions]="{standalone: true}"
+              [(ngModel)]=selectedBuilding>
+              <ng-option *ngFor="let building of buildings"
+                         [value]="building">{{building?.address?.city}} {{building?.address?.raion}} {{building?.address?.street}} {{building?.address?.houseNumber}}
+                <span *ngIf="building?.address?.entranceNo">/{{building?.address?.entranceNo}}</span></ng-option>
+            </ng-select>
+
+            <div class="alert-danger" *ngIf="building.errors && f.submitted">
+              <div *ngIf="building.errors.required">Building is required</div>
+            </div>
+          </div>
+          <div class="input_field"><span><i aria-hidden="true"></i></span>
+            <label for="person">Person</label>
+            <ng-select
+              [items]="persons"
+              id="person"
+              bindLabel="bindName"
+              required
+              [searchable]="true"
+              [multiple]="true"
+              [hideSelected]="true"
+              #person="ngModel"
+              autofocus
+              [ngModelOptions]="{standalone: true}"
+              [(ngModel)]=selectedPerson>
+              <ng-option *ngFor="let person of persons" [value]="person">{{person.name}} {{person.surname}}</ng-option>
+            </ng-select>
+            <div class="alert-danger" *ngIf="person.errors && f.submitted">
+              <div *ngIf="person.errors.required">Person is required</div>
+            </div>
+          </div>
+          <div class="input_field"><span><i aria-hidden="true"></i></span>
+            <label for="flat">Flat Number</label>
+            <ng-select
+              #flats="ngModel"
+              autofocus
+              id="flat"
+              name="flat"
+              [items]="availableFlats"
+              [searchable]="false"
+              [multiple]="false"
+              [(ngModel)]=flat.flatNumber>
+              <ng-option *ngFor="let flat of availableFlats"
+                         [value]="flat">{{flat}}</ng-option>
+            </ng-select>
+
+            <div class="alert-danger" *ngIf="flats.errors && f.submitted">
+              <div *ngIf="flats.errors.required">Flat numbers is required</div>
+            </div>
+          </div>
+          <div class="input_field"><span><i aria-hidden="true"></i></span>
+            <label for="floor">Floor Number</label>
+            <ng-select
+              #floors="ngModel"
+              autofocus
+              id="floor"
+              name="flat"
+              [searchable]="false"
+              [multiple]="false"
+              [(ngModel)]=flat.floor>
+              <ng-option *ngFor="let _ of [].constructor(selectedBuilding?.floors),let i = index"
+                         [value]="i+1">{{i + 1}}</ng-option>
+            </ng-select>
+
+            <div class="alert-danger" *ngIf="floors.errors && f.submitted">
+              <div *ngIf="floors.errors.required">Floor numbers is required</div>
+            </div>
+          </div>
+          <div class="input_field"><span><i aria-hidden="true"></i></span>
+            <label for="entrance">Entrance Number</label>
+            <input
+              id="entrance"
+              type="number"
+              placeholder="Entrance Number"
+              name="entranceNo"
+              [disabled]="!entranceExist"
+              [(ngModel)]="flat.entrance"
+              autofocus
+              #entrance="ngModel"
+              min="0"
+            />
+          </div>
+          <div class="input_field"><span><i aria-hidden="true"></i></span>
+            <label for="wallet">Wallet</label>
+            <input
+              id="wallet"
+              type="number"
+              placeholder="Wallet"
+              name="wallet"
+              [(ngModel)]="flat.wallet"
+              readonly
+              autofocus
+              #wallet="ngModel"
+              min="0"
+            />
+
+          </div>
+          <div class="input_field"><span><i aria-hidden="true"></i></span>
+            <label for="personnr">Number of Person</label>
+            <input
+              id="personnr"
+              type="number"
+              placeholder="Number of Person"
+              name="personnr"
+              [(ngModel)]="flat.numberOfPerson"
+              autofocus
+              #personnr="ngModel"
+              min="0"
+            />
+
+            <div class="alert-danger" *ngIf="personnr.errors && f.submitted">
+              <div *ngIf="personnr.errors.required">Number of person is required</div>
+            </div>
+          </div>
+
+
+
+          <div class="row">
+            <div class="col-6">
+              <input class="button" type="submit" value="Register"/>
+            </div>
+            <div class="col-6">
+              <input class="button" type="reset" value="Reset" (click)="backClicked()"/>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--<div class="container" *ngIf="tokenStorageService.isLoggedIn; else loggedOut">-->
+<!--&lt;!&ndash;<div class="container" >&ndash;&gt;-->
+<!--  <div class="col-12" *ngIf="flat"-->
+<!--       style="border: 2px solid; border-color: rgb(0, 38, 255); font-size: 20px;height: auto">-->
+<!--    <h2 class="justify-content-center m-3">Flat attributes to Edit</h2>-->
+<!--    <form (ngSubmit)="updateFlat(playlistForm)" #playlistForm="ngForm">-->
+
+<!--      <div class="form-group form-group-sm col-sm-6 m-5">-->
+<!--        <div class="row">-->
+<!--          <label for="building" class="col-sm-3 col-form-label">Building</label>-->
+<!--          <div class="col-sm-9">-->
+<!--            <ng-select id="building" [items]="buildings"-->
+<!--                       (change)="getAvailableFlatsByBuilding()"-->
+<!--                       bindLabel="bindName"-->
+<!--                       placeholder="Select Building"-->
+<!--                       appendTo="body"-->
+<!--                       [searchable]="true"-->
+<!--                       [multiple]="false"-->
+<!--                       [(ngModel)]=selectedBuilding-->
+<!--                       [ngModelOptions]="{standalone: true}">-->
+<!--              &lt;!&ndash;              <ng-option *ngFor="let building of buildings"&ndash;&gt;-->
+<!--              &lt;!&ndash;                         [value]="building">{{building?.address?.city}} {{building?.address?.raion}} {{building?.address?.street}} {{building?.address?.houseNumber}}&ndash;&gt;-->
+<!--              &lt;!&ndash;                <span *ngIf="building?.address?.entranceNo">/{{building?.address?.entranceNo}}</span></ng-option>&ndash;&gt;-->
+<!--            </ng-select>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="form-group form-group-sm col-sm-6 m-5">-->
+<!--        <div class="row">-->
+<!--          <label for="person" class="col-sm-3 col-form-label">Person</label>-->
+<!--          <div class="col-sm-9">-->
+<!--            <ng-select id="person" [items]="persons"-->
+<!--                       bindLabel="bindName"-->
+<!--                       placeholder="Select Person"-->
+<!--                       appendTo="body"-->
+<!--                       [searchable]="true"-->
+<!--                       [multiple]="true"-->
+<!--                       [(ngModel)]=selectedPerson-->
+<!--                       [ngModelOptions]="{standalone: true}">-->
+<!--              &lt;!&ndash;              <ng-option *ngFor="let person of persons" [value]="person">{{person.name}} {{person.surname}}</ng-option>&ndash;&gt;-->
+<!--            </ng-select>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="form-group form-group-sm col-sm-6 m-5">-->
+<!--        <div class="row">-->
+<!--          <label for="flat" class="col-sm-3 col-form-label">Flat number</label>-->
+<!--          <div class="col-sm-9">-->
+<!--            <ng-select class="custom" id="flat"-->
+<!--                       name="flat"-->
+<!--                       [items]="availableFlats"-->
+<!--                       [searchable]="false"-->
+<!--                       [multiple]="false"-->
+<!--                       [(ngModel)]=flat.flatNumber>-->
+<!--              <ng-option *ngFor="let flat of availableFlats"-->
+<!--                         [value]="flat">{{flat}}</ng-option>-->
+<!--            </ng-select>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="form-group form-group-sm col-sm-6 m-5">-->
+<!--        <div class="row">-->
+<!--          <label for="floor" class="col-sm-3 col-form-label">Floor number</label>-->
+<!--          <div class="col-sm-9">-->
+<!--            <ng-select id="floor"-->
+<!--                       name="floor"-->
+<!--                       required-->
+<!--                       [searchable]="false"-->
+<!--                       [multiple]="false"-->
+<!--                       [(ngModel)]=flat.floor-->
+<!--                       size="selectedBuilding?.floors">-->
+<!--              <ng-option *ngFor="let _ of [].constructor(selectedBuilding?.floors),let i = index"-->
+<!--                         [value]="i+1">{{i+1}}</ng-option>-->
+<!--            </ng-select>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="form-group form-group-sm col-sm-8 m-5">-->
+<!--        <div class="row">-->
+<!--          <label for="entrance" class="col-sm-3 col-form-label">Entrance</label>-->
+<!--          <div class="col-sm-9">-->
+<!--            <input type="number" min="1" class="form-control" id="entrance" placeholder="Enter ladder number"-->
+<!--                   [(ngModel)]="flat.entrance" name="entrance" >-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="form-group form-group-sm col-sm-8 m-5">-->
+<!--        <div class="row">-->
+<!--          <label for="wallet" class="col-sm-3 col-form-label">Wallet</label>-->
+<!--          <div class="col-sm-9">-->
+<!--            <input type="double" min="1" class="form-control" id="wallet"-->
+<!--                   [(ngModel)]="flat.wallet" name="wallet" readonly="true">-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="form-group form-group-sm col-sm-8 m-5">-->
+<!--        <div class="row">-->
+<!--          <label for="nrperson" class="col-sm-3 col-form-label">Nr of persons</label>-->
+<!--          <div class="col-sm-9">-->
+<!--            <input type="number" min="1" class="form-control" id="nrperson"-->
+<!--                   [(ngModel)]="flat.numberOfPerson" name="numberOfPerson" >-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+
+
+<!--      <button type="submit" class="btn btn-success m-5 btn-lg" (click)="updateFlat(playlistForm)">Submit</button>-->
+<!--      <button type="cancel" class="btn btn-danger m-5  btn-lg" routerLink="/flats">Cancel</button>-->
+
+<!--    </form>-->
+<!--  </div>-->
+<!--</div>-->
+
+
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--<div *ngIf="!flat">-->
+<!--  <br/>-->
+<!--  <p>Cannot access this Flat...</p>-->
+<!--</div>-->
+
+<!--<ng-template #loggedOut>-->
+<!--  Please login.-->
+<!--</ng-template>-->
+
+
+
+

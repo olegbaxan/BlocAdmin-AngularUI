@@ -1,0 +1,343 @@
+<div class="form_wrapper">
+  <div class="form_container">
+    <div class="title_container">
+      <h2>Meters Add Form</h2>
+    </div>
+
+    <div class="row clearfix">
+      <div class="">
+        <form *ngIf="!isSuccessful"
+              name="form"
+              (ngSubmit)="f.form.valid && saveMeter()"
+              #f="ngForm"
+              novalidate>
+
+          <div class="input_field"><span><i aria-hidden="true"></i></span>
+            <label for="serial">Serial</label>
+            <input
+              id="serial"
+              type="text"
+              name="serial"
+              [(ngModel)]="form.serial"
+              placeholder="Serial"
+              required
+              #serials="ngModel"
+              autofocus
+              (ngModelChange)="checkSerial(form.serial)"
+            />
+          </div>
+          <div class="alert-danger" *ngIf="serialExist">
+            <div>Serial already used</div>
+          </div>
+          <div class="alert-danger" *ngIf="serials.errors && f.submitted">
+            <div *ngIf="serials.errors.required">Serial is required</div>
+          </div>
+
+          <div class="input_field"><span><i aria-hidden="true"></i></span>
+            <label for="dest">Destination</label>
+            <ng-select
+              [items]="meterType"
+              id="dest"
+              bindLabel="name"
+              required
+              placeholder="Select Destination"
+              [searchable]="false"
+              [multiple]="false"
+              #dest="ngModel"
+              autofocus
+              [ngModelOptions]="{standalone: true}"
+              [(ngModel)]=selectedMeterDest>
+              <!--              <ng-option *ngFor="let mdest of meterType"-->
+              <!--                         [value]="mdest">{{mdest?.name}}</ng-option>-->
+            </ng-select>
+
+            <div class="alert-danger" *ngIf="dest.errors && f.submitted">
+              <div *ngIf="dest.errors.required">Destination is required</div>
+            </div>
+          </div>
+          <div class="input_field"><span><i aria-hidden="true"></i></span>
+            <label for="init">Initial Value</label>
+            <input
+              id="init"
+              type="number"
+              placeholder="Initial Value"
+              name="init"
+              [(ngModel)]="form.initialValue"
+              required
+              autofocus
+              #init="ngModel"
+            />
+          </div>
+          <div class="input_field"><span><i aria-hidden="true"></i></span>
+            <label for="type">Placement</label>
+            <ng-select
+              bindLabel="name"
+              [items]="typeOfMeterInvoice"
+              id="type"
+              placeholder="Select Placement"
+              required
+              autofocus
+              (change)="selectTypeOfMeterInvoice($event)"
+              [searchable]="false"
+              [multiple]="false"
+              #type="ngModel"
+              [ngModelOptions]="{standalone: true}"
+              [(ngModel)]=selectedTypeOfMeterInvoice>
+              <!--              <ng-option *ngFor="let typeOfMI of typeOfMeterInvoice"-->
+              <!--                         [value]="typeOfMI">{{typeOfMI?.name}}</ng-option>-->
+            </ng-select>
+
+            <div class="alert-danger" *ngIf="dest.errors && f.submitted">
+              <div *ngIf="dest.errors.required">Placement is required</div>
+            </div>
+          </div>
+
+          <div class="input_field"><span><i aria-hidden="true"></i></span>
+            <label for="supplier">Supplier</label>
+            <ng-select id="supplier" [items]="suppliers"
+                       bindLabel="supplierName"
+                       placeholder="Select Supplier"
+                       appendTo="body"
+                       #supp="ngModel"
+                       required
+                       autofocus
+                       [searchable]="true"
+                       [multiple]="false"
+                       [(ngModel)]=selectedSuppliers
+                       [ngModelOptions]="{standalone: true}">
+            </ng-select>
+
+            <div class="alert-danger" *ngIf="supp.errors && f.submitted">
+              <div *ngIf="supp.errors.required">Address is required</div>
+            </div>
+          </div>
+          <div class="input_field"><span><i aria-hidden="true"></i></span>
+            <label for="building">Building</label>
+            <ng-select id="building" [items]="buildings"
+                       bindLabel="bindName"
+                       placeholder="Select Building"
+                       appendTo="body"
+                       [searchable]="true"
+                       [multiple]="false"
+                       #build="ngModel"
+                       required
+                       autofocus
+                       (change)="getFlatsByBuildingid()"
+                       [(ngModel)]=selectedBuilding
+                       [ngModelOptions]="{standalone: true}">
+              <ng-option *ngFor="let building of buildings"
+                         [value]="building">{{building?.address?.city}} {{building?.address?.raion}} {{building?.address?.street}} {{building?.address?.houseNumber}}
+                <span *ngIf="building?.address?.entranceNo">/{{building?.address?.entranceNo}}</span></ng-option>
+
+            </ng-select>
+
+            <div class="alert-danger" *ngIf="build.errors && f.submitted">
+              <div *ngIf="build.errors.required">Building is required</div>
+            </div>
+          </div>
+          <div class="input_field" *ngIf="selectedTypeOfMeterInvoice?.name=='TYPE_FLATS'"><span><i
+            aria-hidden="true"></i></span>
+            <label for="person">Person</label>
+            <ng-select id="person"
+                       [items]="persons"
+                       bindLabel="bindName"
+                       #person="ngModel"
+                       placeholder="Select Person"
+                       required
+                       autofocus
+                       [searchable]="true"
+                       [multiple]="false"
+                       [(ngModel)]=selectedPerson
+                       [ngModelOptions]="{standalone: true}">
+              <!--              <ng-option *ngFor="let person in persons" [value]="person">{{person.name}} {{person.surname}}</ng-option>-->
+            </ng-select>
+
+            <div class="alert-danger" *ngIf="person.errors && f.submitted">
+              <div *ngIf="person.errors.required">Person is required</div>
+            </div>
+          </div>
+          <div class="input_field" *ngIf="selectedTypeOfMeterInvoice?.name=='TYPE_FLATS'"><span><i
+            aria-hidden="true"></i></span>
+            <label for="flat">Flat</label>
+            <ng-select id="flat"
+                       [items]="flats"
+                       bindLabel="bindName"
+                       placeholder="Select Flat"
+                       appendTo="body"
+                       required
+                       autofocus
+                       #flat="ngModel"
+                       [searchable]="true"
+                       [multiple]="false"
+                       [(ngModel)]=selectedFlats
+                       [ngModelOptions]="{standalone: true}">
+              <!--              <ng-option *ngFor="let flat in flats" [value]="flat">{{flat.flatNumber}} {{flat.floor}}</ng-option>-->
+            </ng-select>
+
+            <div class="alert-danger" *ngIf="flat.errors && f.submitted">
+              <div *ngIf="flat.errors.required">Flat is required</div>
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="col-6">
+              <input class="button" type="submit" value="Register"/>
+            </div>
+            <div class="col-6">
+              <input class="button" type="reset" value="Reset" (click)="backClicked()"/>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--<div class="container" *ngIf="tokenStorageService.isLoggedIn; else loggedOut">-->
+<!--  <div class="row">-->
+<!--    <div class="col-12" *ngIf="meter"-->
+<!--         style="border: 2px solid; border-color: rgb(0, 38, 255); font-size: 20px;height: auto">-->
+
+<!--      <div class="submit-form">-->
+<!--        <div *ngIf="!submitted">-->
+<!--          <h2 class="justify-content-center m-3">Add a new Meter</h2>-->
+
+
+<!--          <div class="form-group form-group-sm col-sm-8 m-5">-->
+<!--            <div class="row">-->
+<!--              <label for="serial" class="col-sm-3 col-form-label">Meter serial</label>-->
+<!--              <div class="col-sm-9">-->
+<!--                <input type="text" min="0" class="form-control" id="serial" placeholder="Enter meter serial"-->
+<!--                       [(ngModel)]="meter.serial" name="serial" required>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="form-group form-group-sm col-sm-8 m-5">-->
+<!--            <div class="row">-->
+<!--              <label for="initial" class="col-sm-3 col-form-label">Initial Value</label>-->
+<!--              <div class="col-sm-9">-->
+<!--                <input type="number" min="1" class="form-control" id="initial" placeholder="Enter meter initial value"-->
+<!--                       [(ngModel)]="meter.initialValue" name="initialValue" required>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="form-group form-group-sm col-sm-8 m-5">-->
+<!--            <div class="row">-->
+<!--              <label for="type" class="col-sm-3 col-form-label">Type of Meter</label>-->
+<!--              <div class="col-sm-9">-->
+<!--                <ng-select class="custom" id="type" [items]="meterType"-->
+<!--                           bindLabel="name"-->
+<!--                           placeholder=""-->
+<!--                           appendTo="body"-->
+<!--                           [searchable]="false"-->
+<!--                           [multiple]="false"-->
+<!--                           [(ngModel)]="meter.meterDest"-->
+<!--                           [ngModelOptions]="{standalone: true}">-->
+<!--                </ng-select>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="form-group form-group-sm col-sm-8 m-5">-->
+<!--            <div class="row">-->
+<!--              <label for="supplier" class="col-sm-3 col-form-label">Supplier</label>-->
+<!--              <div class="col-sm-9">-->
+<!--                <ng-select class="custom" id="supplier"-->
+<!--                           [searchable]="true"-->
+<!--                           [multiple]="false"-->
+<!--                           [(ngModel)]=selectedSuppliers>-->
+<!--                  <ng-option *ngFor="let supplier of suppliers" [value]="supplier">{{supplier.supplierName}}</ng-option>-->
+<!--                </ng-select>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+
+<!--          <div class="form-group form-group-sm col-sm-8 m-5">-->
+<!--            <div class="row">-->
+<!--              <label for="building" class="col-sm-3 col-form-label">Building</label>-->
+<!--              <div class="col-sm-9">-->
+<!--                <ng-select id="building"-->
+<!--                           (change)="getFlatsByBuildingid()"-->
+<!--                           placeholder="Select Building"-->
+<!--                           [searchable]="true"-->
+<!--                           [multiple]="false"-->
+<!--                           [(ngModel)]=selectedBuilding-->
+<!--                           [ngModelOptions]="{standalone: true}">-->
+<!--                  <ng-option *ngFor="let building of buildings"-->
+<!--                             [value]="building">{{building?.address?.city}} {{building?.address?.raion}} {{building?.address?.street}} {{building?.address?.houseNumber}}-->
+<!--                    <span *ngIf="building?.address?.entranceNo">/{{building?.address?.entranceNo}}</span></ng-option>-->
+
+<!--                </ng-select>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="form-group form-group-sm col-sm-8 m-5">-->
+<!--            <div class="row">-->
+<!--              <label for="place" class="col-sm-3 col-form-label">Placement</label>-->
+<!--              <div class="col-sm-9">-->
+<!--                <ng-select id="place" [items]="typeOfMeterInvoice"-->
+<!--                           bindLabel="name"-->
+<!--                           (change)="setTypeOfMeterInvoice()"-->
+<!--                           placeholder=""-->
+<!--                           appendTo="body"-->
+<!--                           [searchable]="false"-->
+<!--                           [multiple]="false"-->
+<!--                           [(ngModel)]="meter.typeOfMeterInvoice"-->
+<!--                           [ngModelOptions]="{standalone: true}">-->
+<!--                </ng-select>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="form-group form-group-sm col-sm-8 m-5" *ngIf="meter?.typeOfMeterInvoice?.name=='TYPE_FLATS'">-->
+<!--            <div class="row">-->
+<!--              <label for="flat" class="col-sm-3 col-form-label">Flat</label>-->
+<!--              <div class="col-sm-9">-->
+<!--                <ng-select class="custom" id="flat"-->
+<!--                           [searchable]="true"-->
+<!--                           [multiple]="false"-->
+<!--                           [(ngModel)]=selectedFlats>-->
+<!--                  <ng-option *ngFor="let flat of flats" [value]="flat">{{flat.flatNumber}} </ng-option>-->
+<!--                </ng-select>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+
+
+<!--          <div class="form-group form-group-sm col-sm-8 m-5" *ngIf="meter?.typeOfMeterInvoice?.name=='TYPE_FLATS'">-->
+<!--            <div class="row">-->
+<!--              <label for="person" class="col-sm-3 col-form-label">Contact Person</label>-->
+<!--              <div class="col-sm-9">-->
+<!--                <ng-select class="custom" id="person"-->
+
+<!--                           [searchable]="true"-->
+<!--                           [multiple]="false"-->
+<!--                           [(ngModel)]=selectedPerson>-->
+<!--                  <ng-option *ngFor="let person of persons"-->
+<!--                             [value]="person">{{person.name}} {{person.surname}}</ng-option>-->
+<!--                </ng-select>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+
+
+<!--&lt;!&ndash;          <div class="form-group form-group-sm col-sm-8 m-5"&ndash;&gt;-->
+<!--&lt;!&ndash;               *ngIf="meter?.typeOfMeterInvoice?.name=='TYPE_LADDER' || meter?.typeOfMeterInvoice?.name=='TYPE_BUILDING'">&ndash;&gt;-->
+
+
+<!--          <button type="submit" class="btn btn-success btn-lg m-5" (click)="saveMeter()">Submit</button>-->
+<!--          <button type="cancel" class="btn btn-danger btn-lg m-5" routerLink="/meters">Cancel</button>-->
+
+<!--        </div>-->
+<!--        <div *ngIf="submitted">-->
+<!--          <h4>Building was submitted successfully!</h4>-->
+<!--          <button class="btn btn-success btn-lg m-5 pt-5" (click)="newMeter()">Add new</button>-->
+<!--          <button type="cancel" class="btn btn-danger btn-lg m-5" routerLink="/meters">Cancel</button>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+<!--<ng-template #loggedOut>-->
+<!--  Please login.-->
+<!--</ng-template>-->
+

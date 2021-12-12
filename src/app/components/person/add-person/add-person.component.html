@@ -1,0 +1,131 @@
+<div class="container" *ngIf="tokenStorageService.isLoggedIn; else loggedOut">
+  <div class="row">
+    <div class="col-12" *ngIf="person"
+         style="border: 2px solid; border-color: rgb(0, 38, 255); font-size: 20px;height: auto">
+
+      <div class="submit-form">
+        <div *ngIf="!submitted">
+          <h2 class="justify-content-center m-3">Create a new Person</h2>
+          <div class="form-group form-group-sm col-sm-6 m-5 ">
+            <div class="row">
+              <label for="username" class="col-sm-3 col-form-label">Username</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="username" minlength="4" [(ngModel)]="person.username"
+                       name="username"
+                       required="true" (ngModelChange)="checkUsername(person?.username)">
+              </div>
+            </div>
+          </div>
+          <div class=" form-group form-group-sm col-sm-6 m-5 " *ngIf="usernameExist">
+            <div class="row">
+              <label class="col-sm-3 col-form-label"></label>
+              <div class="alert-danger  col-sm-9">
+                Username already used
+              </div>
+            </div>
+          </div>
+          <div class="form-group form-group-sm col-sm-6 m-5">
+            <div class="row">
+              <label for="fname" class="col-sm-3 col-form-label">First Name</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="fname" placeholder="Enter First Name"
+                       [(ngModel)]="person.name"
+                       name="fname" required="true">
+              </div>
+            </div>
+          </div>
+          <div class="form-group form-group-sm col-sm-6 m-5">
+            <div class="row">
+              <label for="lname" class="col-sm-3 col-form-label">Last Name</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="lname" placeholder="Enter Last Name"
+                       [(ngModel)]="person.surname" name="lname" required="true">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group form-group-sm col-sm-6 m-5">
+            <div class="row">
+              <label for="email" class="col-sm-3 col-form-label">Email</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="email" placeholder="Enter Email" [(ngModel)]="person.email"
+                       name="email" required="true">
+              </div>
+            </div>
+          </div>
+<!--          <div class="form-group form-group-sm col-sm-6 m-5">-->
+<!--            <div class="row">-->
+<!--              <label for="role" class="col-sm-3 col-form-label">Role</label>-->
+<!--              <div class="col-sm-9">-->
+<!--                <ng-select id="role" [items]="roles"-->
+<!--                           bindLabel="bindName"-->
+<!--                           placeholder="Select Roles"-->
+<!--                           appendTo="body"-->
+<!--                           [searchable]="false"-->
+<!--                           [multiple]="true"-->
+<!--                           [(ngModel)]=selectedRoles>-->
+<!--                </ng-select>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+          <div class="form-group form-group-sm col-sm-6 m-5">
+            <div class="row">
+              <label for="description" class="col-sm-3 col-form-label">Description</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="description" placeholder="Enter Description"
+                       [(ngModel)]="person.description" name="description">
+              </div>
+            </div>
+          </div>
+          <div class="form-group form-group-sm col-sm-6 m-5">
+            <div class="row">
+              <label for="phone" class="col-sm-3 col-form-label">Phone Number</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="phone" placeholder="Enter Phone Number"
+                       [(ngModel)]="person.phone" name="phone">
+              </div>
+            </div>
+          </div>
+          <div class="form-group form-group-sm col-sm-6 m-5">
+            <div class="row">
+              <label for="mobile" class="col-sm-3 col-form-label">Mobile Number</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="mobile" placeholder="Enter Mobile Number"
+                       [(ngModel)]="person.mobile" name="mobile">
+              </div>
+            </div>
+          </div>
+          <div class="form-group form-group-sm col-sm-6 m-5">
+            <div class="row">
+              <label for="idnp" class="col-sm-3 col-form-label">IDNP</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="idnp" minlength="13" maxlength="13" placeholder="Enter IDNP" [(ngModel)]="person.idnp"
+                       name="idnp" required="true" (ngModelChange)="checkIDNP(person?.idnp)">
+              </div>
+            </div>
+          </div>
+          <div class=" form-group form-group-sm col-sm-6 m-5 " *ngIf="idnpExist">
+            <div class="row">
+              <label class="col-sm-3 col-form-label"></label>
+              <div class="alert-danger  col-sm-9">
+                IDNP already used
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-success btn-lg m-5" (click)="savePerson()">Submit</button>
+          <button type="cancel" class="btn btn-danger btn-lg m-5" routerLink="/person">Cancel</button>
+        </div>
+
+        <div *ngIf="submitted">
+          <h4>Address was submitted successfully!</h4>
+          <button class="btn btn-success btn-lg m-5 pt-5" (click)="newPerson()">Add new</button>
+          <button type="cancel" class="btn btn-danger btn-lg m-5" routerLink="/person">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #loggedOut>
+  Please login.
+</ng-template>

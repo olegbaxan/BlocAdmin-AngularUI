@@ -1,0 +1,169 @@
+<div class="form_wrapper">
+  <div class="form_container">
+    <div class="title_container">
+      <h2>Building Edit Form</h2>
+    </div>
+
+    <div class="row clearfix">
+      <div class="">
+        <form *ngIf="!isSuccessful"
+              name="form"
+              (ngSubmit)="f.form.valid && updateAddress(f)"
+              #f="ngForm"
+              novalidate>
+
+          <div class="input_field"><span><i aria-hidden="true"></i></span>
+            <label for="address">City</label>
+            <input
+              id="address"
+              type="text"
+              placeholder="City"
+              name="city"
+              [(ngModel)]="address.city"
+              required
+              autofocus
+              #city="ngModel"
+            />
+            <div class="alert-danger" *ngIf="city.errors && f.submitted">
+              <div *ngIf="city.errors.required">City is required</div>
+            </div>
+          </div>
+          <div class="input_field"><span><i aria-hidden="true"></i></span>
+            <label for="raion">Raion</label>
+            <input
+              id="raion"
+              type="text"
+              placeholder="Raion"
+              name="raion"
+              [(ngModel)]="address.raion"
+              required
+              autofocus
+              #raion="ngModel"
+            />
+            <div class="alert-danger" *ngIf="raion.errors && f.submitted">
+              <div *ngIf="raion.errors.required">Raion is required</div>
+            </div>
+          </div>
+          <div class="input_field"><span><i aria-hidden="true"></i></span>
+            <label for="street">Street</label>
+            <input
+              id="street"
+              type="text"
+              placeholder="Street"
+              name="street"
+              [(ngModel)]="address.street"
+              required
+              autofocus
+              #street="ngModel"
+            />
+            <div class="alert-danger" *ngIf="street.errors && f.submitted">
+              <div *ngIf="street.errors.required">Street is required</div>
+            </div>
+          </div>
+          <div class="input_field"><span><i aria-hidden="true"></i></span>
+            <label for="house">House Number</label>
+            <input
+              id="house"
+              type="text"
+              placeholder="City"
+              name="houseNumber"
+              [(ngModel)]="address.houseNumber"
+              required
+              autofocus
+              #house="ngModel"
+            />
+            <div class="alert-danger" *ngIf="house.errors && f.submitted">
+              <div *ngIf="house.errors.required">House number is required</div>
+            </div>
+          </div>
+          <div class="input_field"><span><i aria-hidden="true"></i></span>
+            <label for="entrance">Entrance</label>
+            <input
+              id="entrance"
+              type="number"
+              placeholder="Entrance Number"
+              name="entranceNo"
+              [(ngModel)]="address.entranceNo"
+
+              autofocus
+              #entrance="ngModel"
+            />
+          </div>
+
+          <div class="row">
+            <div class="col-6">
+              <input class="button" type="submit" value="Register"/>
+            </div>
+            <div class="col-6">
+              <input class="button" type="reset" value="Reset" (click)="backClicked()"/>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!--<div class="container">-->
+<!--    <div class="col-12" *ngIf="address" style="border: 2px solid; border-color: rgb(0, 38, 255); font-size: 20px;height: auto">-->
+<!--      <h2 class="justify-content-center m-3">Address attributes to Edit</h2>-->
+<!--      <form (ngSubmit)="updateAddress(playlistForm)" #playlistForm="ngForm">-->
+<!--        <div class="form-group form-group-sm col-sm-6 m-5 ">-->
+<!--          <div class="row">-->
+<!--            <label for="city" class="col-sm-3 col-form-label">City</label>-->
+<!--            <div class="col-sm-9">-->
+<!--              <input type="text" class="form-control" id="city"  [(ngModel)]="address.city" name="city"   required>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="form-group form-group-sm col-sm-6 m-5">-->
+<!--          <div class="row">-->
+<!--            <label for="raion" class="col-sm-3 col-form-label">Raion</label>-->
+<!--            <div class="col-sm-9">-->
+<!--              <input type="text" class="form-control" id="raion"  placeholder="Enter raion" [(ngModel)]="address.raion" name="raion">-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="form-group form-group-sm col-sm-6 m-5">-->
+<!--          <div class="row">-->
+<!--            <label for="street" class="col-sm-3 col-form-label">Street</label>-->
+<!--            <div class="col-sm-9">-->
+<!--              <input type="text" class="form-control" id="street"  placeholder="Enter street" [(ngModel)]="address.street" name="street">-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="form-group form-group-sm col-sm-6 m-5">-->
+<!--          <div class="row">-->
+<!--            <label for="house" class="col-sm-3 col-form-label">House number</label>-->
+<!--            <div class="col-sm-9">-->
+<!--              <input type="text" class="form-control" id="house" placeholder="Enter house number" [(ngModel)]="address.houseNumber" name="houseNumber">-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="form-group form-group-sm col-sm-6 m-5">-->
+<!--          <div class="row">-->
+<!--            <label for="entrance" class="col-sm-3 col-form-label">Entrance</label>-->
+<!--            <div class="col-sm-9">-->
+<!--              <input type="number" class="form-control" id="entrance" placeholder="Enter entrance number" [(ngModel)]="address.entranceNo" name="entranceNo">-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <button type="submit" class="btn btn-success m-5 btn-lg" (click)="updateAddress(playlistForm)">Submit</button>-->
+<!--        <button type="cancel" class="btn btn-danger m-5  btn-lg" routerLink="/address">Cancel</button>-->
+
+<!--      </form>-->
+
+<!--    </div>-->
+<!--  </div>-->
+<!--&lt;!&ndash;  <app-footer></app-footer>&ndash;&gt;-->
+
+<!--&lt;!&ndash;  <a href="${pageContext.request.contextPath}/">Back to main page</a>&ndash;&gt;-->
+
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--<div *ngIf="!address">-->
+<!--  <br />-->
+<!--  <p>Cannot access this Address...</p>-->
+<!--</div>-->
+
+
+
+
