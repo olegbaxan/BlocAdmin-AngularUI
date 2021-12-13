@@ -34,13 +34,13 @@ export class ListPersonComponent implements OnInit {
   pageSizes = parameters.pageSizes;
   showModal: boolean = false;
   showModalBad: boolean = false;
-  personToDelete=new Person();
+  personToDelete = new Person();
 
   constructor(private personService: PersonService,
               private authService: AuthService,
               private route: ActivatedRoute,
               private router: Router,
-              public tokenStorageService:TokenStorageService,)
+              public tokenStorageService: TokenStorageService)
   {
     this.tokenStorageService.getPersonData();
   }
