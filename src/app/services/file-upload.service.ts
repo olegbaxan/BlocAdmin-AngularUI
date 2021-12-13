@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpEvent, HttpRequest} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {ResponseContentType} from "@angular/http";
+// import {ResponseContentType} from '@angular/http';
 import {InvoiceService} from "./invoice.service";
 
 @Injectable({

@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {Building} from "../../../model/Building";
-import {parameters} from "../../../constants/constants";
-import {BuildingService} from "../../../services/building.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {AuthService} from "../../../services/auth.service";
-import {TokenStorageService} from "../../../services/token-storage.service";
-import {FileUploadService} from "../../../services/file-upload.service";
-import {File} from "../../../model/File";
-import {InvoiceService} from "../../../services/invoice.service";
+import {parameters} from '../../../constants/constants';
+import {ActivatedRoute, Router} from '@angular/router';
+import {AuthService} from '../../../services/auth.service';
+import {TokenStorageService} from '../../../services/token-storage.service';
+import {FileUploadService} from '../../../services/file-upload.service';
+import {File} from '../../../model/File';
+import {InvoiceService} from '../../../services/invoice.service';
 
 @Component({
   selector: 'app-upload-images',
@@ -31,7 +29,7 @@ export class UploadImagesComponent implements OnInit {
               private router: Router,
               private authService: AuthService,
               private invoiceService: InvoiceService,
-              public tokenStorageService:TokenStorageService,)
+              public tokenStorageService: TokenStorageService)
   {
     this.tokenStorageService.getPersonData();
   }
@@ -58,16 +56,17 @@ export class UploadImagesComponent implements OnInit {
     return params;
   }
 
+  // tslint:disable-next-line:typedef
   retrieveFiles() {
     // const params = this.getRequestParams(this.title, this.page, this.pageSize);
 
     this.fileUploadService.getFiles()
       .subscribe(
         response => {
-          console.log("Filedresp",response);
+          console.log('Filedresp', response);
           this.files = response;
-          console.log("Files",this.files);
-          this.getInvoiceFileInfo()
+          console.log('Files', this.files);
+          this.getInvoiceFileInfo();
         },
         error => {
           console.log(error);
@@ -75,17 +74,17 @@ export class UploadImagesComponent implements OnInit {
         });
   }
   getInvoiceFileInfo(): void {
-    for (let item in this.files) {
+    for (const item in this.files) {
       if (this.files[item].name) {
-        console.log("FileID=",this.files[item].name)
+        console.log('FileID=', this.files[item].name);
         this.invoiceService.getFilesById(this.files[item].name)
           .subscribe(
             response => {
               const {invoiceFile, fileInfo} = response;
               this.files[item].invoiceFile = invoiceFile;
               this.files[item].fileInfo = fileInfo[0];
-              console.log("InvoiceFile",this.files[item].invoiceFile);
-              console.log("InvoicefileInfo",this.files[item].fileInfo);
+              console.log('InvoiceFile', this.files[item].invoiceFile);
+              console.log('InvoicefileInfo', this.files[item].fileInfo);
             },
             error => {
               console.log(error);
