@@ -2,6 +2,7 @@
   "/api/*" : {
     "target": "https://blocadmin-sb.herokuapp.com",
     "secure": false,
-    "logLevel": "debug"
+    "logLevel": "debug",
+    "changeOrigin":true
   }
 }
