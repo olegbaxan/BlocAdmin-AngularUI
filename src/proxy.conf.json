@@ -1,6 +1,6 @@
 {
   "/api/*" : {
-    "target": "https://blocadmin-sb.herokuapp.com/:8080",
+    "target": "https://blocadmin-sb.herokuapp.com",
     "secure": false,
     "logLevel": "debug"
   }
