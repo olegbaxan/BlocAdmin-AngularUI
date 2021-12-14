@@ -13,7 +13,7 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = '/api/v1/auth/';
+  private baseUrl = 'https://blocadmin-angularui.herokuapp.com/api/v1/auth/';
   loginUsername = '';
   constructor(private http: HttpClient,
               private router: Router) {
