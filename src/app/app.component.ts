@@ -16,7 +16,7 @@ export class AppComponent implements OnInit{
   showAdminBoard = false;
   showModeratorBoard = false;
   username?: string;
-token?:Subscription;
+token?: Subscription;
   constructor(private tokenStorageService: TokenStorageService,
               private route: ActivatedRoute,
               private router: Router,
