@@ -14,13 +14,13 @@ const httpOptions = {
 })
 export class AuthService {
   private baseUrl = '/api/v1/auth/';
-  loginUsername ='';
+  loginUsername = '';
   constructor(private http: HttpClient,
               private router: Router,) {
 
   }
   login(username: string, password: string): Observable<any> {
-    this.loginUsername=username;
+    this.loginUsername = username;
     return this.http.post(this.baseUrl + 'signin', {
       username,
       password
@@ -40,11 +40,12 @@ export class AuthService {
     }, httpOptions);
   }
 
+  // tslint:disable-next-line:typedef
   logout(erMessage: string) {
-    if(erMessage=="Unauthorized"){
+    if (erMessage === 'Unauthorized'){
       // this.isLoggedIn = false;
-      window.sessionStorage.removeItem("auth-person");
-      window.sessionStorage.removeItem("auth-token");
+      window.sessionStorage.removeItem('auth-person');
+      window.sessionStorage.removeItem('auth-token');
       this.router.navigate(['/login']);
     }
   }
