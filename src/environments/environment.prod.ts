@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://blocadmin-sb.herokuapp.com:8080'
+  apiUrl: 'https://blocadmin-angularui.herokuapp.com/'
 };

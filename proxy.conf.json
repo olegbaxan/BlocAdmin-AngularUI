@@ -3,7 +3,6 @@
     "target": "https://blocadmin-sb.herokuapp.com",
     "secure": false,
     "logLevel": "debug",
-    "changeOrigin":true,
-    "pathRewrite": { "^/api": "" }
+    "changeOrigin":true
   }
 }
