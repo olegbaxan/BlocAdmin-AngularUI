@@ -2,6 +2,7 @@ import {Component, ElementRef, OnInit} from '@angular/core';
 import {TokenStorageService} from "./services/token-storage.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Subscription} from "rxjs";
+import { environment } from './../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -24,10 +25,11 @@ token?:Subscription;
 
   ngOnInit(): void {
     // debugger;
-    console.log("Router",this.router);
-    console.log("Route",this.route);
+    console.log('Router',this.router);
+    console.log('Route', this.route);
+    console.log('environment', environment);
 
-    this.token=this.route.queryParams
+    this.token = this.route.queryParams
       .subscribe(params => {
         return params.token;
       });
