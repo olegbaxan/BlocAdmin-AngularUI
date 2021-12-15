@@ -3,13 +3,14 @@ import {HttpClient, HttpEvent, HttpRequest} from "@angular/common/http";
 import {Observable} from "rxjs";
 // import {ResponseContentType} from '@angular/http';
 import {InvoiceService} from "./invoice.service";
+import {environment} from '../../environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FileUploadService {
 
-  private baseUrl = '/api/v1/files';
+  private baseUrl = environment.apiUrl + '/api/v1/files';
 
   constructor(private http: HttpClient,
               private invoiceService:InvoiceService) { }

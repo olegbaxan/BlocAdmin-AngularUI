@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Address} from "../model/Address";
+import {environment} from '../../environments/environment.prod';
 
 
 const endpoint = 'https://jsonplaceholder.typicode.com/posts';
@@ -9,7 +10,7 @@ const endpoint = 'https://jsonplaceholder.typicode.com/posts';
   providedIn: 'root'
 })
 export class AddressService {
-  private baseUrl = '/api/v1/address';
+  private baseUrl = environment.apiUrl + '/api/v1/address';
 
   constructor(private http: HttpClient) {
   }

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
+import {environment} from '../../environments/environment.prod';
 
 
 
@@ -8,7 +9,7 @@ import {Observable} from "rxjs";
   providedIn: 'root'
 })
 export class PersonService {
-  private baseUrl = '/api/v1/person';
+  private baseUrl = environment.apiUrl + '/api/v1/person';
 
   constructor(private http: HttpClient) { }
 

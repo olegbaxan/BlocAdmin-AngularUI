@@ -14,7 +14,7 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = environment.apiUrl + 'api/v1/auth/';
+  private baseUrl = environment.apiUrl + '/api/v1/auth/';
   loginUsername = '';
   constructor(private http: HttpClient,
               private router: Router) {

@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {MeterData} from "../model/MeterData";
+import {environment} from '../../environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MeterdataService {
 
-  private baseUrl = '/api/v1/meterdata';
+  private baseUrl = environment.apiUrl + '/api/v1/meterdata';
 
   constructor(private http: HttpClient) {
   }
