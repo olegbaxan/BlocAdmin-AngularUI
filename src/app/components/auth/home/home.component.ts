@@ -41,7 +41,7 @@ export class HomeComponent implements OnInit {
               private authService: AuthService,
               private router: Router,
               private _location: Location,
-              public tokenStorageService:TokenStorageService,)
+              public tokenStorageService:TokenStorageService)
   {
     this.tokenStorageService.getPersonData();
   }

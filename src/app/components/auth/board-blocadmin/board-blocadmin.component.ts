@@ -3,6 +3,7 @@ import {InvoiceService} from "../../../services/invoice.service";
 import {Invoice} from "../../../model/Invoice";
 import {FlatService} from "../../../services/flat.service";
 import {Flat} from "../../../model/Flat";
+import {TokenStorageService} from '../../../services/token-storage.service';
 
 @Component({
   selector: 'app-board-blocadmin',
@@ -15,7 +16,11 @@ export class BoardBlocadminComponent implements OnInit {
   newInvoicesSupp: Invoice[]=[];
   flats:Flat[]=[];
   constructor(private invoiceService: InvoiceService,
-              private flatService: FlatService,) { }
+              private flatService: FlatService,
+              public tokenStorageService: TokenStorageService)
+  {
+    this.tokenStorageService.getPersonData();
+  }
 
   ngOnInit(): void {
     this.getFlatsNegativeWallet();

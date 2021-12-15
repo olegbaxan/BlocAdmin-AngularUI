@@ -1,4 +1,4 @@
-<div class="container-fluid" *ngIf="newInvoices">
+<div class="container-fluid" *ngIf="newInvoices && tokenStorageService.isManager">
   <div class="row">
     <div class="col-lg-12">
 
@@ -64,7 +64,7 @@
   </div>
 </div>
 
-<div class="container-fluid" *ngIf="newInvoicesSupp">
+<div class="container-fluid" *ngIf="newInvoicesSupp && tokenStorageService.isManager">
   <div class="row">
     <div class="col-lg-12">
 
@@ -128,7 +128,7 @@
 
   </div>
 </div>
-<div class="container-fluid" *ngIf="flats">
+<div class="container-fluid" *ngIf="flats && tokenStorageService.isManager">
   <div class="row">
     <div class="col-lg-12">
 
