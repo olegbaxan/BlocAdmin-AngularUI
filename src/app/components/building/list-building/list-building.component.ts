@@ -66,7 +66,6 @@ export class ListBuildingComponent implements OnInit {
         response => {
           const {buildings, totalItems} = response;
           this.buildings = buildings;
-          console.log("Build",this.buildings);
           this.count = totalItems;
         },
         error => {

@@ -24,21 +24,16 @@ token: string ="";
       });
   }
   resetPassword() {
-    const {password,password2}=this.form;
-
-    console.log("Pass",password);
-    console.log("token",this.token);
+    const {password, password2}=this.form;
 
     this.passwordService.resetPassword(this.token, password)
       .subscribe(
         response => {
-          console.log("Reset",response);
           this.router.navigate(['/login']);
         },
         error => {
           console.log(error);
           this.router.navigate(['/login']);
-          // this.router.navigate(['/forgotpassword']);
         });
   }
 }

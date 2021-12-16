@@ -27,21 +27,16 @@ export class ChangePasswordComponent implements OnInit {
 
   }
   changePassword() {
-    const {oldpassword,newpassword}=this.form;
+    const {oldpassword, newpassword}=this.form;
 
-    console.log("oldpassword",oldpassword);
-    console.log("newpassword",newpassword);
-
-    this.passwordService.changePassword(this.username, oldpassword,newpassword)
+    this.passwordService.changePassword(this.username, oldpassword, newpassword)
       .subscribe(
         response => {
-          console.log("CHange",response);
           this.router.navigate(['/login']);
         },
         error => {
           console.log(error);
-          // this.router.navigate(['/login']);
-          // this.router.navigate(['/forgotpassword']);
+
         });
   }
 }

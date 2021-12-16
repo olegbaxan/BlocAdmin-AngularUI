@@ -1,15 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {Flat} from "../../../model/Flat";
-import {parameters} from "../../../constants/constants";
-import {FlatService} from "../../../services/flat.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {TokenStorageService} from "../../../services/token-storage.service";
-import {Invoice} from "../../../model/Invoice";
-import {InvoiceService} from "../../../services/invoice.service";
-import {Observable} from "rxjs";
-import {FileUploadService} from "../../../services/file-upload.service";
-import * as FileSaver from "file-saver";
-import {AuthService} from "../../../services/auth.service";
+import {parameters} from '../../../constants/constants';
+import {ActivatedRoute, Router} from '@angular/router';
+import {TokenStorageService} from '../../../services/token-storage.service';
+import {Invoice} from '../../../model/Invoice';
+import {InvoiceService} from '../../../services/invoice.service';
+import {FileUploadService} from '../../../services/file-upload.service';
+import {AuthService} from '../../../services/auth.service';
 
 @Component({
   selector: 'app-list-invoice',
@@ -36,8 +32,7 @@ export class ListInvoiceComponent implements OnInit {
               private authService: AuthService,
               private route: ActivatedRoute,
               private router: Router,
-              public tokenStorageService:TokenStorageService,)
-  {
+              public tokenStorageService: TokenStorageService,) {
     this.tokenStorageService.getPersonData();
     this.invoices = [];
   }
@@ -73,7 +68,6 @@ export class ListInvoiceComponent implements OnInit {
         response => {
           const {invoices, totalItems} = response;
           this.invoices = invoices;
-          console.log("Invoices full", this.invoices);
           this.count = totalItems;
           this.getInvoiceFileInfo();
         },
@@ -85,12 +79,10 @@ export class ListInvoiceComponent implements OnInit {
 
   getInvoiceFileInfo(): void {
     for (let item in this.invoices) {
-      if(this.invoices[item].status?.name=='STATUS_CLOSED'){
-        this.isEditable=false;
+      if (this.invoices[item].status?.name == 'STATUS_CLOSED') {
+        this.isEditable = false;
       }
-      console.log("For Invoice", this.invoices[item].invoiceFileId)
       if (this.invoices[item].invoiceFileId) {
-        console.log("FileID=",this.invoices[item].invoiceFileId)
         this.invoiceService.getFilesById(this.invoices[item].invoiceFileId)
           .subscribe(
             response => {
@@ -105,20 +97,16 @@ export class ListInvoiceComponent implements OnInit {
       // this.invoices.push(invoices[item]);
     }
 
-    console.log("For Invoice full", this.invoices);
-
   }
-  deleteInvoice(id:Number|undefined){
-    // this.showModal = false;
+
+  deleteInvoice(id: Number | undefined) {
     this.invoiceService.deleteInvoice(id)
       .subscribe(
         response => {
           this.retrieveInvoices();
-          console.log("Invoice delete");
         },
         error => {
           console.log(error);
-          // this.showModalBad=true;
         });
   }
 

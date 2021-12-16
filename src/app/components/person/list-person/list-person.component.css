@@ -4,10 +4,6 @@ th,td{
 .table-responsive {
   display: table;
 }
-/*table{*/
-/*  border-collapse: collapse;*/
-/*  height: 100vh;*/
-/*}*/
 
 .paginationCss {
   position: relative;

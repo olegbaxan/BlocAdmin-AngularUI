@@ -1,18 +1,18 @@
 import {Component, OnInit} from '@angular/core';
-import {FlatService} from "../../../services/flat.service";
-import {PersonService} from "../../../services/person.service";
-import {BuildingService} from "../../../services/building.service";
-import {MeterService} from "../../../services/meter.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {SupplierService} from "../../../services/supplier.service";
-import {Person} from "../../../model/Person";
-import {Flat} from "../../../model/Flat";
-import {Supplier} from "../../../model/Supplier";
-import {MeterDest} from "../../../model/MeterDest";
-import {TypeOfMeterInvoice} from "../../../model/TypeOfMeterInvoice";
-import {Building} from "../../../model/Building";
-import {TokenStorageService} from "../../../services/token-storage.service";
-import {Location} from "@angular/common";
+import {FlatService} from '../../../services/flat.service';
+import {PersonService} from '../../../services/person.service';
+import {BuildingService} from '../../../services/building.service';
+import {MeterService} from '../../../services/meter.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {SupplierService} from '../../../services/supplier.service';
+import {Person} from '../../../model/Person';
+import {Flat} from '../../../model/Flat';
+import {Supplier} from '../../../model/Supplier';
+import {MeterDest} from '../../../model/MeterDest';
+import {TypeOfMeterInvoice} from '../../../model/TypeOfMeterInvoice';
+import {Building} from '../../../model/Building';
+import {TokenStorageService} from '../../../services/token-storage.service';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-edit-meter',
@@ -21,7 +21,7 @@ import {Location} from "@angular/common";
 })
 export class EditMeterComponent implements OnInit {
 
-  title = "Edit meter form";
+  title = 'Edit meter form';
   meter: any;
   message = '';
   persons: Person[] = [];
@@ -60,7 +60,7 @@ export class EditMeterComponent implements OnInit {
     this.getAllBuildings();
     this.getAllSuppliers();
     this.getAllMeterType();
-    this.getAllTypeOfMeterInvoice()
+    this.getAllTypeOfMeterInvoice();
   }
 
   private getAllPersons(): void {
@@ -69,15 +69,13 @@ export class EditMeterComponent implements OnInit {
         response => {
           this.persons = [];
           for (let item in response) {
-            response[item].bindName = response[item].name + " " + response[item].surname;
+            response[item].bindName = response[item].name + ' ' + response[item].surname;
             this.persons.push(response[item]);
-            console.log("Persons ", this.persons)
           }
         },
         error => {
           console.log(error);
         });
-    // return response;
   }
 
   private getAllFlats(): void {
@@ -89,7 +87,6 @@ export class EditMeterComponent implements OnInit {
             response[item].bindName = response[item].flatNumber;
             this.flats.push(response[item]);
           }
-          console.log("Flats", this.flats);
         },
         error => {
           console.log(error);
@@ -105,7 +102,7 @@ export class EditMeterComponent implements OnInit {
           for (let item in response) {
             // response[item].bindName = response[item].supplierName;
             this.suppliers.push(response[item]);
-            console.log("this.suppliers ", this.suppliers);
+
           }
         },
         error => {
@@ -124,7 +121,6 @@ export class EditMeterComponent implements OnInit {
         error => {
           console.log(error);
         });
-    // return response;
   }
 
   private getAllTypeOfMeterInvoice(): void {
@@ -137,7 +133,6 @@ export class EditMeterComponent implements OnInit {
         error => {
           console.log(error);
         });
-    // return response;
   }
 
   private getAllBuildings(): void {
@@ -147,12 +142,11 @@ export class EditMeterComponent implements OnInit {
           this.buildings = [];
           for (let item in response) {
             if (!response[item].address.entranceNo) {
-              response[item].bindName = response[item].address.city + " " + response[item].address.raion + " " + response[item].address.street + " " + response[item].address.houseNumber;
+              response[item].bindName = response[item].address.city + ' ' + response[item].address.raion + ' ' + response[item].address.street + ' ' + response[item].address.houseNumber;
             } else {
-              response[item].bindName = response[item].address.city + " " + response[item].address.raion + " " + response[item].address.street + " " + response[item].address.houseNumber + "/" + response[item].address.entranceNo;
+              response[item].bindName = response[item].address.city + ' ' + response[item].address.raion + ' ' + response[item].address.street + ' ' + response[item].address.houseNumber + '/' + response[item].address.entranceNo;
             }
             this.buildings.push(response[item]);
-            console.log("this.buildings ", this.buildings);
           }
         },
         error => {
@@ -165,21 +159,20 @@ export class EditMeterComponent implements OnInit {
     this.meterService.getById(id)
       .subscribe(
         data => {
-          console.log("DataMeter", data);
           if (data.person) {
-            data.person.bindName = data.person.name + " " + data.person.surname;
+            data.person.bindName = data.person.name + ' ' + data.person.surname;
           }
           if (data.flat) {
-            data.flat.bindName = data.flat.flatNumber + " - " + data.flat.floor;
+            data.flat.bindName = data.flat.flatNumber + ' - ' + data.flat.floor;
           }
           if (data.supplier) {
             data.supplier.bindName = data.supplier.supplierName;
           }
           if (data.building) {
             if (!data.building.address.entranceNo) {
-              data.building.bindName = data.building.address.city + " " + data.building.address.raion + " " + data.building.address.street + " " + data.building.address.houseNumber
+              data.building.bindName = data.building.address.city + ' ' + data.building.address.raion + ' ' + data.building.address.street + ' ' + data.building.address.houseNumber;
             } else {
-              data.building.bindName = data.building.address.city + " " + data.building.address.raion + " " + data.building.address.street + " " + data.building.address.houseNumber + "/" + data.building.address.entranceNo
+              data.building.bindName = data.building.address.city + ' ' + data.building.address.raion + ' ' + data.building.address.street + ' ' + data.building.address.houseNumber + '/' + data.building.address.entranceNo;
 
             }
           }
@@ -204,11 +197,10 @@ export class EditMeterComponent implements OnInit {
     this.meter.building = this.selectedBuilding;
     this.meter.meterDest = this.selectedMeterDest;
     this.meter.typeOfMeterInvoice = this.selectedTypeOfMeterInvoice;
-    console.log("DataMeter",this.meter);
     this.meterService.editMeter(this.meter.meterid, this.meter)
       .subscribe(
         response => {
-          this.isSuccessful = true
+          this.isSuccessful = true;
           this.message = 'The meter was updated successfully!';
         },
         error => {
@@ -248,7 +240,6 @@ export class EditMeterComponent implements OnInit {
         .subscribe(
           response => {
             this.serialExist = response;
-            console.log("Serial responce ", response)
           },
           error => {
             console.log(error);

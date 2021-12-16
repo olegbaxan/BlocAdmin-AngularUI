@@ -1,12 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import {Meter} from "../../../model/Meter";
-import {parameters} from "../../../constants/constants";
-import {MeterService} from "../../../services/meter.service";
-import {AuthService} from "../../../services/auth.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {TokenStorageService} from "../../../services/token-storage.service";
-import {Payments} from "../../../model/Payments";
-import {PaymentsService} from "../../../services/payments.service";
+import {Component, OnInit} from '@angular/core';
+import {parameters} from '../../../constants/constants';
+import {AuthService} from '../../../services/auth.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {TokenStorageService} from '../../../services/token-storage.service';
+import {Payments} from '../../../model/Payments';
+import {PaymentsService} from '../../../services/payments.service';
 
 @Component({
   selector: 'app-list-payment',
@@ -28,11 +26,10 @@ export class ListPaymentComponent implements OnInit {
   pageSizes = parameters.pageSizes;
 
   constructor(private paymentsService: PaymentsService,
-              private authService:AuthService,
+              private authService: AuthService,
               private route: ActivatedRoute,
               private router: Router,
-              public tokenStorageService:TokenStorageService,)
-  {
+              public tokenStorageService: TokenStorageService,) {
     this.tokenStorageService.getPersonData();
   }
 
@@ -65,10 +62,8 @@ export class ListPaymentComponent implements OnInit {
     this.paymentsService.getAll(params)
       .subscribe(
         response => {
-          console.log("Responce",response);
           const {payments, totalItems} = response;
           this.payments = payments;
-          console.log("payments ",this.payments);
           this.count = totalItems;
         },
         error => {
@@ -76,6 +71,7 @@ export class ListPaymentComponent implements OnInit {
           this.authService.logout(error.error.error);
         });
   }
+
   handlePageChange(event: number): void {
     this.page = event;
     this.retrievePayments();

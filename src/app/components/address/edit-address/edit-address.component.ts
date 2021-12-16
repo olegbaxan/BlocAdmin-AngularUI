@@ -34,8 +34,6 @@ export class EditAddressComponent implements OnInit {
       .subscribe(
         data => {
           this.address = data;
-          // console.log("AddressID: "+this.address.addressid)
-          // console.log(data);
         },
         error => {
           console.log(error);

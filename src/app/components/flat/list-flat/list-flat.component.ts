@@ -20,9 +20,6 @@ export class ListFlatComponent implements OnInit {
   flats: Flat[]=[];
   currentIndex = -1;
   title = '';
-  // loggedUserID: string = '';
-  // loggedUserName: string = '';
-  // isLoggedIn: boolean = false;
   page = parameters.page;
   count = parameters.count;
   pageSize = parameters.pageSize;
@@ -38,7 +35,6 @@ export class ListFlatComponent implements OnInit {
 
   ngOnInit(): void {
     this.retrieveFlats();
-    // this.getPerson();
   }
   getRequestParams(searchTitle: string, page: number, pageSize: number): any {
     // tslint:disable-next-line:prefer-const

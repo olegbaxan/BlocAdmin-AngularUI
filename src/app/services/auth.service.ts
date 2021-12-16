@@ -4,7 +4,6 @@ import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
 import {environment} from '../../environments/environment.prod';
 
-// const AUTH_API = 'http://localhost:8080/api/v1/auth/';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })

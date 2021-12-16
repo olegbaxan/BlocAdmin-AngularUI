@@ -15,10 +15,6 @@ export class AddressService {
   constructor(private http: HttpClient) {
   }
 
-  // getAll(): Observable<any> {
-  //   // return this.http.get('/api/rest/address');
-  //   return this.http.get(this.baseUrl);
-  // }
 
   getById(id: string | number | null): Observable<any> {
     // return this.http.get('/api/rest/address/'+id);

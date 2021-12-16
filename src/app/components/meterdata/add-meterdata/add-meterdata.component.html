@@ -63,11 +63,6 @@
             <div *ngIf="curr.errors.required">Current value is required</div>
             <div *ngIf="difference">Current Value should be greater then Previous</div>
           </div>
-
-
-
-
-
           <div class="row">
             <div class="col-6">
               <input class="button" type="submit" value="Register"/>
@@ -81,88 +76,3 @@
     </div>
   </div>
 </div>
-<!--<div class="container" *ngIf="tokenStorageService.isLoggedIn; else loggedOut">-->
-<!--  <div class="row">-->
-<!--    <div class="col-12" *ngIf="meterdata"-->
-<!--         style="border: 2px solid; border-color: rgb(0, 38, 255); font-size: 20px;height: auto">-->
-
-<!--      <div class="submit-form">-->
-<!--        <div *ngIf="!submitted">-->
-<!--          <h2 class="justify-content-center m-3">Add a new MeterData</h2>-->
-
-
-<!--          <div class="form-group form-group-sm col-sm-8 m-5">-->
-<!--            <div class="row">-->
-<!--              <label for="meter" class="col-sm-3 col-form-label">Select Meter</label>-->
-<!--              <div class="col-sm-9" >-->
-<!--                <ng-select (change)=getPreviousValue() class="custom" id="meter"-->
-<!--                           [searchable]="false"-->
-<!--                           [multiple]="false"-->
-<!--                           [(ngModel)]=selectedMeter-->
-<!--                           >-->
-<!--                  <ng-option *ngFor="let meter of meters" [value]="meter">{{meter.serial}} {{meter.flat?.flatNumber}}-->
-<!--                  </ng-option>-->
-<!--                </ng-select>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--            <div class="form-group form-group-sm col-sm-8 m-5">-->
-<!--            <div class="row">-->
-<!--              <label for="previous" class="col-sm-3 col-form-label">Previous value</label>-->
-<!--              <div class="col-sm-9">-->
-<!--                <input type="number" class="form-control" id="previous"-->
-<!--                       [(ngModel)]="meterdata.previousValue" name="initialValue" readonly="true" >-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-
-<!--          <div class="form-group form-group-sm col-sm-8 m-5">-->
-<!--            <div class="row">-->
-<!--              <label for="current" class="col-sm-3 col-form-label">Current Value</label>-->
-<!--              <div class="col-sm-9">-->
-<!--                <input type="number" min="1" class="form-control" id="current" placeholder="Enter meter current value"-->
-<!--                       [(ngModel)]="meterdata.currentValue" (change)="enterCurrentValue($event)" name="currentValue" required="true">-->
-<!--              </div>-->
-<!--            </div>-->
-
-<!--          <div class="alert-danger" *ngIf="difference">-->
-<!--            <div>-->
-<!--              Current value must be bigger then previous-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          </div>-->
-
-<!--&lt;!&ndash;          <div class="form-group form-group-sm col-sm-8 m-5">&ndash;&gt;-->
-<!--&lt;!&ndash;            <div class="row">&ndash;&gt;-->
-<!--&lt;!&ndash;              <label for="place" class="col-sm-3 col-form-label">Status</label>&ndash;&gt;-->
-<!--&lt;!&ndash;              <div class="col-sm-9">&ndash;&gt;-->
-<!--&lt;!&ndash;                <ng-select class="custom" id="place" [items]="status"&ndash;&gt;-->
-<!--&lt;!&ndash;                           bindLabel="name"&ndash;&gt;-->
-<!--&lt;!&ndash;                           placeholder=""&ndash;&gt;-->
-<!--&lt;!&ndash;                           appendTo="body"&ndash;&gt;-->
-<!--&lt;!&ndash;                           [searchable]="false"&ndash;&gt;-->
-<!--&lt;!&ndash;                           [multiple]="false"&ndash;&gt;-->
-<!--&lt;!&ndash;                           [(ngModel)]="meterdata.status"&ndash;&gt;-->
-<!--&lt;!&ndash;                           [ngModelOptions]="{standalone: true}">&ndash;&gt;-->
-<!--&lt;!&ndash;                </ng-select>&ndash;&gt;-->
-<!--&lt;!&ndash;              </div>&ndash;&gt;-->
-<!--&lt;!&ndash;            </div>&ndash;&gt;-->
-<!--&lt;!&ndash;          </div>&ndash;&gt;-->
-
-<!--          <button type="submit" class="btn btn-success btn-lg m-5" (click)="saveMeterData()">Submit</button>-->
-<!--          <button type="cancel" class="btn btn-danger btn-lg m-5" routerLink="/meterdata">Cancel</button>-->
-
-<!--        </div>-->
-<!--        </div>-->
-<!--        <div *ngIf="submitted">-->
-<!--          <h4>Building was submitted successfully!</h4>-->
-<!--          <button type="submit" class="btn btn-success btn-lg m-5 pt-5" (click)="newMeterData()">Add new</button>-->
-<!--          <button type="cancel" class="btn btn-danger btn-lg m-5" routerLink="/meterdata">Cancel</button>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</div>-->
-<!--<ng-template #loggedOut>-->
-<!--  Please login.-->
-<!--</ng-template>-->
-

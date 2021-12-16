@@ -26,7 +26,7 @@ export class EditBuildingComponent implements OnInit {
               private route: ActivatedRoute,
               private router: Router,
               public tokenStorageService: TokenStorageService,
-              private _location: Location,) {
+              private _location: Location) {
     this.tokenStorageService.getPersonData();
   }
 
@@ -50,7 +50,6 @@ export class EditBuildingComponent implements OnInit {
             }
             this.addresses.push(response[item]);
           }
-          console.log("Address", this.addresses);
         },
         error => {
           console.log(error);

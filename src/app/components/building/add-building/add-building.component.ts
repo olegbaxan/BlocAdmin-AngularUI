@@ -13,12 +13,6 @@ import {Router} from "@angular/router";
   styleUrls: ['./add-building.component.css']
 })
 export class AddBuildingComponent implements OnInit {
-  // building: Building = {
-  //   buildingid: undefined,
-  //   flats: undefined,
-  //   floors: undefined,
-  //   selectedAddress: undefined,
-  // };
   form: Building = {
     buildingid: undefined,
     flats: undefined,
@@ -58,7 +52,6 @@ export class AddBuildingComponent implements OnInit {
   }
 
   saveBuilding(): void {
-    console.log("this.selectedAddress", this.selectedAddress);
     const data = {
       buildingid: this.form.buildingid,
       floors: this.form.floors,

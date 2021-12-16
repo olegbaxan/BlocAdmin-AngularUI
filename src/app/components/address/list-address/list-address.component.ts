@@ -17,8 +17,7 @@ import {TokenStorageService} from "../../../services/token-storage.service";
 @Injectable({providedIn:EditAddressComponent})
 export class ListAddressComponent implements OnInit {
 
-  // addresses: any;
-  // title="Delete address";
+
   address:any;
   message = '';
   query = '';
@@ -47,7 +46,7 @@ export class ListAddressComponent implements OnInit {
   ngOnInit(): void {
     this.retrieveAddresses();
 
-    // this.isLoggedIn=this.loginComponent.isLoggedIn;
+
   }
 
   getRequestParams(searchTitle: string, page: number, pageSize: number): any {

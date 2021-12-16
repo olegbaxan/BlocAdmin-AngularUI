@@ -58,7 +58,6 @@ export class UploadImagesComponent implements OnInit {
 
   // tslint:disable-next-line:typedef
   retrieveFiles() {
-    // const params = this.getRequestParams(this.title, this.page, this.pageSize);
 
     this.fileUploadService.getFiles()
       .subscribe(
@@ -90,7 +89,6 @@ export class UploadImagesComponent implements OnInit {
               console.log(error);
             });
       }
-      // this.invoices.push(invoices[item]);
     }
 
   }

@@ -1,12 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import {Person} from "../../../model/Person";
-import {parameters} from "../../../constants/constants";
-import {PersonService} from "../../../services/person.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {TokenStorageService} from "../../../services/token-storage.service";
-import {Supplier} from "../../../model/Supplier";
-import {SupplierService} from "../../../services/supplier.service";
-import {AuthService} from "../../../services/auth.service";
+import {Component, OnInit} from '@angular/core';
+import {parameters} from '../../../constants/constants';
+import {ActivatedRoute, Router} from '@angular/router';
+import {TokenStorageService} from '../../../services/token-storage.service';
+import {Supplier} from '../../../model/Supplier';
+import {SupplierService} from '../../../services/supplier.service';
+import {AuthService} from '../../../services/auth.service';
 
 @Component({
   selector: 'app-list-supplier',
@@ -31,8 +29,7 @@ export class ListSupplierComponent implements OnInit {
               private authService: AuthService,
               private route: ActivatedRoute,
               private router: Router,
-              public tokenStorageService:TokenStorageService,)
-  {
+              public tokenStorageService: TokenStorageService,) {
     this.tokenStorageService.getPersonData();
   }
 
@@ -75,6 +72,7 @@ export class ListSupplierComponent implements OnInit {
           this.authService.logout(error.error.error);
         });
   }
+
   handlePageChange(event: number): void {
     this.page = event;
     this.retrieveSuppliers();

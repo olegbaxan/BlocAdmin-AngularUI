@@ -2,7 +2,7 @@ html {
   overflow: hidden !important;
 }
 .container-fluid {
-  /*display: flex;*/
+
 }
 .side{
   flex: 1;

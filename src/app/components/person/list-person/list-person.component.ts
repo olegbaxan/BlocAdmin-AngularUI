@@ -5,7 +5,6 @@ import {PersonService} from "../../../services/person.service";
 import {TokenStorageService} from "../../../services/token-storage.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {parameters} from "../../../constants/constants";
-// import {el} from "@angular/platform-browser/testing/src/browser_util";
 import {AuthService} from "../../../services/auth.service";
 
 
@@ -75,7 +74,6 @@ export class ListPersonComponent implements OnInit {
         response => {
           const {persons, totalItems} = response;
           this.persons = persons;
-          console.log("Persons",this.persons);
           this.count = totalItems;
         },
         error => {
@@ -89,7 +87,6 @@ export class ListPersonComponent implements OnInit {
       .subscribe(
         response => {
           this.retrievePersons();
-          console.log("Person delete");
         },
         error => {
           console.log(error);

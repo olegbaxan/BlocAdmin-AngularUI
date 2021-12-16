@@ -11,7 +11,6 @@ import {Building} from "../../../model/Building";
 import {TokenStorageService} from "../../../services/token-storage.service";
 import {Location} from "@angular/common";
 import {Router} from "@angular/router";
-import {MeterService} from "../../../services/meter.service";
 import {MeterdataService} from "../../../services/meterdata.service";
 
 
@@ -91,12 +90,10 @@ export class AddInvoiceComponent implements OnInit {
             this.meters.push(response[item]);
 
           }
-          console.log("this.meters ",this.meters );
         },
         error => {
           console.log(error);
         });
-    // return response;
   }
   private getAllSuppliers(): void {
     this.invoiceService.getSuppliers()
@@ -106,13 +103,11 @@ export class AddInvoiceComponent implements OnInit {
           for (let item in response) {
             response[item].bindName = response[item].supplierName;
             this.suppliers.push(response[item]);
-            console.log("this.supplier ",this.suppliers );
           }
         },
         error => {
           console.log(error);
         });
-    // return response;
   }
   private getAllBuildings(): void {
     this.invoiceService.getBuildings()
@@ -127,7 +122,6 @@ export class AddInvoiceComponent implements OnInit {
               response[item].bindName = response[item].address.city + " " + response[item].address.raion+ " " + response[item].address.street+ " " + response[item].address.houseNumber+"/"+response[item].address.entranceNo;
             }
             this.buildings.push(response[item]);
-            console.log("this.buildings ",this.buildings );
           }
         },
         error => {
@@ -141,7 +135,6 @@ export class AddInvoiceComponent implements OnInit {
         response => {
           this.typeOfMeterInvoices=[];
           this.typeOfMeterInvoices = response;
-          console.log("TypeOfMeterInvoice",this.typeOfMeterInvoices);
         },
         error => {
           console.log(error);
@@ -149,7 +142,6 @@ export class AddInvoiceComponent implements OnInit {
     // return response;
   }
   getAllBuildingMeters(buildings:Building[]|undefined) {
-    console.log("Selected Buildings", buildings);
     if (buildings!=null){
       for (let i=0;i<buildings?.length;i++){
         this.buildMeters=[];
@@ -167,7 +159,6 @@ export class AddInvoiceComponent implements OnInit {
             response[item].bindName = response[item].serial;
             this.buildMeters.push(response[item]);
           }
-          console.log("this.buildMeters",this.buildMeters);
         },
         error => {
           console.log(error);
@@ -180,7 +171,6 @@ export class AddInvoiceComponent implements OnInit {
     if (!this.form.buildings){
       // @ts-ignore
       this.form.buildings.push(this.form?.meter?.building);
-      console.log("ThisfileId",this.fileId);
     }
     const data = {
       invoiceNumber: this.form.invoiceNumber,
@@ -197,7 +187,6 @@ export class AddInvoiceComponent implements OnInit {
       meter: this.form.meter,
       invoiceFileId:this.fileId,
     };
-    console.log("Invoice Data",data)
     this.invoiceService.createInvoice(data)
       .subscribe(
         response => {
@@ -210,8 +199,6 @@ export class AddInvoiceComponent implements OnInit {
         });
   }
   getPreviousValue(meter:Meter|undefined) {
-    // this.meters?.forEach((meter) => {
-      console.log("MeterGet", meter?.meterId);
       this.meterdataService.getPreviuosMeterData(meter?.meterId)
         .subscribe(
           response => {
@@ -220,8 +207,6 @@ export class AddInvoiceComponent implements OnInit {
             } else {
               this.form.meterDataPrevious = response;
             }
-
-            console.log("PrevValue", this.form.meterDataPrevious)
           },
           error => {
             console.log(error);
@@ -233,8 +218,6 @@ export class AddInvoiceComponent implements OnInit {
     this.message = [];
     this.progressInfos = [];
     this.selectedFiles = event.target.files;
-    console.log("SelectedFiles",this.selectedFiles);
-    // this.fileIdName = event.target.files.FileList.File.name;
     this.previews = [];
     if (this.selectedFiles && this.selectedFiles[0]) {
       const numberOfFiles = this.selectedFiles.length;
@@ -245,9 +228,6 @@ export class AddInvoiceComponent implements OnInit {
           console.log(e.target.result);
           this.previews.push(e.target.result);
         };
-
-        // console.log("SelectedFiles",this.fileIdName);
-        // this.checkExistingFileName(this.selectedFiles[i].name);
         reader.readAsDataURL(this.selectedFiles[i]);
       }
     }
@@ -267,24 +247,20 @@ export class AddInvoiceComponent implements OnInit {
     if (file) {
       this.uploadService.upload(file).subscribe(
         (event: any) => {
-          console.log("Upload response",event);
           if (event.type === HttpEventType.UploadProgress) {
             this.progressInfos[idx].value = Math.round(100 * event.loaded / event.total);
           } else if (event instanceof HttpResponse) {
             if(event.body.fileDB!="Unknown"){
 
                 this.fileId=event.body.fileDB[0].name;
-              console.log("File-Id",this.fileId);
+
               // this.imageInfos = this.uploadService.getFilesById(this.fileId);
               this.imageInfos = event.body.fileDB[0];
-              console.log("imageInfos",this.imageInfos);
+
             }
             // const msg = 'Uploaded the file successfully: ' + file.name;
             const msg = event.body.message;
             this.message.push(msg);
-
-            // this.imageInfos = this.uploadService.getFiles();
-
 
           }
         },
@@ -308,13 +284,11 @@ export class AddInvoiceComponent implements OnInit {
 
 
   checkInvoiceNo(invoiceNumber: String|undefined) {
-      console.log("InvoiceNo",invoiceNumber)
       if (invoiceNumber)  {
         this.invoiceService.checkInvoice(invoiceNumber)
           .subscribe(
             response => {
               this.invoiceExist = response;
-              console.log("Invoice responce ", response)
             },
             error => {
               console.log(error);

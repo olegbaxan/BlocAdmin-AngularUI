@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import {ActivatedRoute, Navigation, Router} from "@angular/router";
+import {Injectable} from '@angular/core';
+import {ActivatedRoute, Navigation, Router} from '@angular/router';
 
 const TOKEN_KEY = 'auth-token';
 const PERSON_KEY = 'auth-person';
@@ -11,13 +11,14 @@ export class TokenStorageService {
 
   loggedUserID: string = '';
   loggedUserName: string = '';
-  loggedUserRole: any='';
+  loggedUserRole: any = '';
   isLoggedIn: boolean = false;
-  isAdmin:boolean=false;
-  isManager:boolean=false;
+  isAdmin: boolean = false;
+  isManager: boolean = false;
+
   constructor(private router: Router,
               private route: ActivatedRoute,
-              ) {
+  ) {
     // this.getPersonData()
   }
 
@@ -46,24 +47,30 @@ export class TokenStorageService {
     }
     return {};
   }
+
   getPersonData() {
     //initPersonData // private
     const person = window.sessionStorage.getItem(PERSON_KEY);
     if (person) {
       const personKey = JSON.parse(person);
-      this.isLoggedIn=true;
-      this.loggedUserID=personKey.id;
-      this.loggedUserName=personKey.username;
-      this.loggedUserRole=personKey.roles;
-      for (let i=0;i<this.loggedUserRole.length;i++){
-        switch (this.loggedUserRole[i]){
-          case "ROLE_ADMIN": this.isAdmin=true ;break;
-          case "ROLE_BLOCADMIN": this.isManager=true ;break;
+      this.isLoggedIn = true;
+      this.loggedUserID = personKey.id;
+      this.loggedUserName = personKey.username;
+      this.loggedUserRole = personKey.roles;
+      for (let i = 0; i < this.loggedUserRole.length; i++) {
+        switch (this.loggedUserRole[i]) {
+          case 'ROLE_ADMIN':
+            this.isAdmin = true;
+            break;
+          case 'ROLE_BLOCADMIN':
+            this.isManager = true;
+            break;
         }
       }
 
-    }else {
+    } else {
       this.router.navigate(['/login']);
     }
 
-}}
+  }
+}

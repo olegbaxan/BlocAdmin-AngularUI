@@ -1,7 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {MeterService} from "../../../services/meter.service";
-import {FlatService} from "../../../services/flat.service";
-import {PersonService} from "../../../services/person.service";
 import {SupplierService} from "../../../services/supplier.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {InvoiceService} from "../../../services/invoice.service";
@@ -13,7 +11,6 @@ import {TokenStorageService} from "../../../services/token-storage.service";
 import {HttpEventType, HttpResponse} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {FileUploadService} from "../../../services/file-upload.service";
-import {logger} from "codelyzer/util/logger";
 import {Location} from "@angular/common";
 
 
@@ -77,12 +74,10 @@ export class EditInvoiceComponent implements OnInit {
             this.meters.push(response[item]);
 
           }
-          console.log("Meters ", this.meters)
         },
         error => {
           console.log(error);
         });
-    // return response;
   }
 
   private getAllSuppliers(): void {
@@ -95,7 +90,6 @@ export class EditInvoiceComponent implements OnInit {
             this.suppliers.push(response[item]);
 
           }
-          console.log("this.suppliers ", this.suppliers);
         },
         error => {
           console.log(error);
@@ -116,7 +110,6 @@ export class EditInvoiceComponent implements OnInit {
             }
             this.buildings.push(response[item]);
           }
-          console.log("this.buildings ", this.buildings);
         },
         error => {
           console.log(error);
@@ -130,20 +123,16 @@ export class EditInvoiceComponent implements OnInit {
         response => {
           this.typeOfMeterInvoice=[];
           this.typeOfMeterInvoice = response;
-          console.log("typeOfMeterInvoice", this.typeOfMeterInvoice);
         },
         error => {
           console.log(error);
         });
-    // return response;
   }
 
   private getInvoiceById(id: string | number | null): void {
     this.invoiceService.getById(id)
       .subscribe(
         data => {
-          console.log("Data", data);
-
           this.invoice = data;
           if (data.buildings) {
 
@@ -161,7 +150,6 @@ export class EditInvoiceComponent implements OnInit {
             data.typeOfMeterInvoice.bindName=data.typeOfMeterInvoice.name
           }
           if(data.meter){
-            console.log("data.meter", data.meter);
             data.meter.bindName=data.meter.serial;
           }
 
@@ -181,7 +169,6 @@ export class EditInvoiceComponent implements OnInit {
   }
 
   updateInvoice(playlistForm: { reset: () => void; }): void {
-    console.log("UploadInvoice",this.invoice);
     this.invoiceService.editInvoice(this.invoice.invoiceId, this.invoice)
       .subscribe(
         response => {
@@ -224,8 +211,6 @@ export class EditInvoiceComponent implements OnInit {
     this.message = [];
     this.progressInfos = [];
     this.selectedFiles = event.target.files;
-    console.log("SelectedFiles",this.selectedFiles);
-    // this.fileIdName = event.target.files.FileList.File.name;
     this.previews = [];
     if (this.selectedFiles && this.selectedFiles[0]) {
       const numberOfFiles = this.selectedFiles.length;
@@ -236,9 +221,6 @@ export class EditInvoiceComponent implements OnInit {
           console.log(e.target.result);
           this.previews.push(e.target.result);
         };
-
-        // console.log("SelectedFiles",this.fileIdName);
-        // this.checkExistingFileName(this.selectedFiles[i].name);
         reader.readAsDataURL(this.selectedFiles[i]);
       }
     }
@@ -258,24 +240,18 @@ export class EditInvoiceComponent implements OnInit {
     if (file) {
       this.uploadService.upload(file).subscribe(
         (event: any) => {
-          console.log("Upload response",event);
           if (event.type === HttpEventType.UploadProgress) {
             this.progressInfos[idx].value = Math.round(100 * event.loaded / event.total);
           } else if (event instanceof HttpResponse) {
             if(event.body.fileDB!="Unknown"){
 
               this.fileId=event.body.fileDB[0].name;
-              console.log("File-Id",this.fileId);
               // this.imageInfos = this.uploadService.getFilesById(this.fileId);
               this.imageInfos = event.body.fileDB[0];
-              console.log("imageInfos",this.imageInfos);
             }
             // const msg = 'Uploaded the file successfully: ' + file.name;
             const msg = event.body.message;
             this.message.push(msg);
-
-            // this.imageInfos = this.uploadService.getFiles();
-
 
           }
         },

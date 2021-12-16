@@ -58,13 +58,11 @@ export class RegisterComponent implements OnInit {
     }, 50);
   }
   checkUsername(username: String|undefined):void {
-    console.log("Check for Username");
     if((username) && (username?.length>3)){
       this.personService.checkUsername(username)
         .subscribe(
           response => {
             this.usernameExist=response;
-            console.log("Username responce ", response)
           },
           error => {
             console.log(error);
@@ -77,7 +75,6 @@ export class RegisterComponent implements OnInit {
         .subscribe(
           response => {
             this.idnpExist=response;
-            console.log("IDNP responce ", response)
           },
           error => {
             console.log(error);
@@ -87,6 +84,4 @@ export class RegisterComponent implements OnInit {
   backClicked() {
     this._location.back();
   }
-
-
 }

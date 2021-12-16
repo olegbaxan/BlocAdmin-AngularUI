@@ -1,14 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import {Person} from "../../../model/Person";
-import {Supplier} from "../../../model/Supplier";
-import {Address} from "../../../model/Address";
-import {any} from "codelyzer/util/function";
-import {SupplierService} from "../../../services/supplier.service";
-import {AddressService} from "../../../services/address.service";
-import {TokenStorageService} from "../../../services/token-storage.service";
-import {Building} from "../../../model/Building";
-import {Router} from "@angular/router";
-import {Location} from "@angular/common";
+import {Component, OnInit} from '@angular/core';
+import {Supplier} from '../../../model/Supplier';
+import {Address} from '../../../model/Address';
+import {SupplierService} from '../../../services/supplier.service';
+import {AddressService} from '../../../services/address.service';
+import {TokenStorageService} from '../../../services/token-storage.service';
+import {Router} from '@angular/router';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-add-supplier',
@@ -21,22 +18,21 @@ export class AddSupplierComponent implements OnInit {
     supplierName: '',
     fiscalCode: '',
     bankCode: '',
-    details: '' ,
+    details: '',
     iban: '',
     address: new Address(),
   };
 
   submitted = false;
-  addresses:any = [];
-  selectedAddress:any=[];
+  addresses: any = [];
+  selectedAddress: any = [];
   isSuccessful = false;
 
   constructor(private supplierService: SupplierService,
               private addressService: AddressService,
-              public tokenStorageService:TokenStorageService,
-              private router:Router,
-              private _location: Location,)
-  {
+              public tokenStorageService: TokenStorageService,
+              private router: Router,
+              private _location: Location,) {
     this.tokenStorageService.getPersonData();
   }
 
@@ -44,22 +40,19 @@ export class AddSupplierComponent implements OnInit {
     this.getAllAddresses();
   }
 
-  private getAllAddresses():void {
+  private getAllAddresses(): void {
     this.supplierService.getAddresses()
       .subscribe(
         response => {
-          this.addresses=[];
+          this.addresses = [];
           this.addresses = response;
-          console.log("address",this.addresses);
-          console.log("responce",response);
         },
         error => {
           console.log(error);
         });
-    // return response;
   }
+
   saveSupplier(): void {
-    console.log("this.selectedAddress",this.selectedAddress);
     const data = {
       supplierName: this.form.supplierName,
       fiscalCode: this.form.fiscalCode,
@@ -73,26 +66,13 @@ export class AddSupplierComponent implements OnInit {
       .subscribe(
         response => {
           console.log(response);
-          this.isSuccessful = true
+          this.isSuccessful = true;
           this.router.navigate(['/suppliers']);
         },
         error => {
           console.log(error);
         });
   }
-  // newSupplier(): void {
-  //   this.submitted = false;
-  //
-  //   this.form = {
-  //     supplierid: undefined,
-  //     supplierName: '',
-  //     bankCode: '',
-  //     fiscalCode: '',
-  //     iban: '',
-  //     details: '',
-  //     address:undefined,
-  //   };
-  // }
   backClicked() {
     this._location.back();
   }

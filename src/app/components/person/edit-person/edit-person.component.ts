@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
-import {PersonService} from "../../../services/person.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {TokenStorageService} from "../../../services/token-storage.service";
-import {Location} from "@angular/common";
+import {PersonService} from '../../../services/person.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {TokenStorageService} from '../../../services/token-storage.service';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-edit-person',
@@ -11,19 +11,19 @@ import {Location} from "@angular/common";
   styleUrls: ['./edit-person.component.css']
 })
 export class EditPersonComponent implements OnInit {
-  title="Edit person form";
-  person:any;
+  title = 'Edit person form';
+  person: any;
   message = '';
-  roles:any = [];
-  selectedRoles:any=[];
+  roles: any = [];
+  selectedRoles: any = [];
   isSuccessful = false;
-  idnpExist:boolean=false;
+  idnpExist: boolean = false;
+
   constructor(private personService: PersonService,
               private route: ActivatedRoute,
               private router: Router,
               private _location: Location,
-              public tokenStorageService:TokenStorageService,)
-  {
+              public tokenStorageService: TokenStorageService,) {
     this.tokenStorageService.getPersonData();
   }
 
@@ -33,46 +33,51 @@ export class EditPersonComponent implements OnInit {
     this.getPersonById(this.route.snapshot.paramMap.get('id'));
     this.getAllRoles();
   }
-  private getAllRoles():void {
+
+  private getAllRoles(): void {
     this.personService.getRoles()
       .subscribe(
         response => {
-          this.roles=[];
+          this.roles = [];
           this.roles = response;
         },
         error => {
           console.log(error);
         });
-    // return response;
   }
-  private getPersonById(id: string | number | null):void {
+
+  private getPersonById(id: string | number | null): void {
     this.personService.getById(id)
       .subscribe(
         data => {
           this.person = data;
-          this.selectedRoles=data.roles;
+          this.selectedRoles = data.roles;
         },
         error => {
           console.log(error);
         });
   }
+
   updatePerson(playlistForm: { reset: () => void; }): void {
     this.personService.editPerson(this.person.personid, this.person)
       .subscribe(
         response => {
-          this.isSuccessful = true
+          this.isSuccessful = true;
         },
         error => {
           console.log(error);
         });
-    setTimeout(()=>{
+    setTimeout(() => {
       playlistForm.reset();
-      if(this.tokenStorageService.isAdmin || this.tokenStorageService.isManager){
+      if (this.tokenStorageService.isAdmin || this.tokenStorageService.isManager) {
         this.router.navigate(['/person']);
-      }else  this.router.navigate(['/home']);
+      } else {
+        this.router.navigate(['/home']);
+      }
 
     }, 50);
   }
+
   updatePublished(status: any): void {
     const data = {
       title: this.person.title,
@@ -90,16 +95,17 @@ export class EditPersonComponent implements OnInit {
           console.log(error);
         });
   }
+
   backClicked() {
     this._location.back();
   }
-  checkIDNP(idnp: String|undefined):void {
-    if((idnp) && (idnp?.length==13)){
+
+  checkIDNP(idnp: String | undefined): void {
+    if ((idnp) && (idnp?.length == 13)) {
       this.personService.checkIdnp(idnp)
         .subscribe(
           response => {
-            this.idnpExist=response;
-            console.log("IDNP responce ", response)
+            this.idnpExist = response;
           },
           error => {
             console.log(error);

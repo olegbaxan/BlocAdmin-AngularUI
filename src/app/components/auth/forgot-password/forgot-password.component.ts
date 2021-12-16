@@ -34,11 +34,10 @@ export class ForgotPasswordComponent implements OnInit {
       .subscribe(
         response => {
 
-          console.log("Responce", response)
         },
         error => {
           console.log(error);
         });
-    // return response;
+
   }
 }

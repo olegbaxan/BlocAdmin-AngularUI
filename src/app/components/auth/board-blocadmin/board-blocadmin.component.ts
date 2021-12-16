@@ -35,7 +35,6 @@ export class BoardBlocadminComponent implements OnInit {
       .subscribe(
         data => {
           this.flats = data;
-          console.log("Flat NegWallet",this.flats);
         },
         error => {
           console.log(error);
@@ -47,7 +46,6 @@ export class BoardBlocadminComponent implements OnInit {
       .subscribe(
         data => {
           this.newInvoices = data;
-          console.log("Invoices Person",this.newInvoices);
         },
         error => {
           console.log(error);
@@ -59,7 +57,7 @@ export class BoardBlocadminComponent implements OnInit {
       .subscribe(
         data => {
           this.newInvoicesSupp = data;
-          console.log("Invoices SupplierData",this.newInvoicesSupp);
+
         },
         error => {
           console.log(error);
