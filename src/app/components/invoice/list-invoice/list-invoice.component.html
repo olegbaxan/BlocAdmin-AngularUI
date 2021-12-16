@@ -103,7 +103,7 @@
               <td align="center"><a class="btn btn-sm"(click)="deleteInvoice(invoice.invoiceId)" *ngIf="(invoice?.status?.name=='STATUS_NEW' || invoice?.status?.name=='STATUS_SENDINVOICE') && invoice.typeOfMeterInvoice?.name=='TYPE_BUILDING'">
                 <img src="../../../assets/img/delete1.png">Delete</a></td>
 
-              <td align="center"><a class="btn btn-sm"
+              <td align="center"><a class="btn btn-sm" *ngIf="(invoice?.status?.name=='STATUS_NEW' || invoice?.status?.name=='STATUS_SENDINVOICE') && invoice.typeOfMeterInvoice?.name=='TYPE_BUILDING'"
 
                                     routerLink="{{invoice.invoiceId }}">
                 <img src="../../../assets/img/edit1.png" >Edit</a></td>

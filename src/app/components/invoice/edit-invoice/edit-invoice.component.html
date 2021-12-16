@@ -37,6 +37,7 @@
                        #supp="ngModel"
                        required
                        autofocus
+                       disabled="invoice.status?.name!='STATUS_NEW'"
                        [searchable]="true"
                        [multiple]="false"
                        [(ngModel)]=invoice.supplier
@@ -60,6 +61,7 @@
                        #build="ngModel"
                        required
                        autofocus
+                       disabled="invoice.status?.name!='STATUS_NEW'"
                        [(ngModel)]=invoice.buildings
                        [ngModelOptions]="{standalone: true}">
               <ng-option *ngFor="let building of buildings"
@@ -82,6 +84,7 @@
                        #met="ngModel"
                        required
                        autofocus
+                       disabled="invoice.status?.name!='STATUS_NEW'"
                        [(ngModel)]=invoice.meter
                        [ngModelOptions]="{standalone: true}">
               <ng-option *ngFor="let meter of meters" [value]="meter">{{meter.serial}}</ng-option>
@@ -100,7 +103,7 @@
               name="prev"
               [(ngModel)]="invoice.meterDataPrevious"
               placeholder="Meter Previous Data"
-
+              disabled="invoice.status?.name!='STATUS_NEW'"
               #prev="ngModel"
               autofocus
             />
@@ -114,6 +117,7 @@
               id="curr"
               type="number"
               name="curr"
+              disabled="invoice.status?.name!='STATUS_NEW'"
               [(ngModel)]="invoice.meterDataCurrent"
               placeholder="Current Meter Data"
 
@@ -132,6 +136,7 @@
               id="sum"
               type="number"
               name="sum"
+              disabled="invoice.status?.name!='STATUS_NEW'"
               [(ngModel)]="invoice.invoiceSum"
               placeholder="Invoice Sum"
               required
@@ -153,6 +158,7 @@
                        required
                        #place="ngModel"
                        autofocus
+                       disabled="invoice.status?.name!='STATUS_NEW'"
                        [(ngModel)]="invoice.typeOfMeterInvoice"
                        [ngModelOptions]="{standalone: true}">
             </ng-select>
@@ -181,6 +187,7 @@
               id="till"
               type="date"
               name="till"
+              disabled="invoice.status?.name!='STATUS_NEW'"
               [(ngModel)]="invoice.payTill"
               placeholder="Invoice Payment limit"
               required
@@ -199,6 +206,7 @@
               id="file"
               type="text"
               name="invnum"
+              disabled="invoice.status?.name!='STATUS_NEW'"
               [(ngModel)]="invoice.invoiceFileId"
               placeholder="Invoice Number"
               #invnum="ngModel"
