@@ -32,7 +32,6 @@
               name="first"
               [(ngModel)]="person.name"
               required
-              autofocus
               #first="ngModel"
             />
 
@@ -49,7 +48,6 @@
               name="last"
               [(ngModel)]="person.surname"
               required
-              autofocus
               #last="ngModel"
             />
 
@@ -66,7 +64,6 @@
               name="email"
               [(ngModel)]="person.email"
               required
-              autofocus
               #mail="ngModel"
             />
             <div class="alert-danger" *ngIf="mail.errors && f.submitted">
@@ -95,7 +92,6 @@
               placeholder="Description"
               name="description"
               [(ngModel)]="person.description"
-              autofocus
               #descriptions="ngModel"
             />
           </div>
@@ -107,7 +103,6 @@
               placeholder="Phone"
               name="phone"
               [(ngModel)]="person.phone"
-              autofocus
               #phones="ngModel"
             />
           </div>
@@ -120,7 +115,6 @@
               name="mobile"
               [(ngModel)]="person.mobile"
               required
-              autofocus
               #mobiles="ngModel"
             />
             <div class="alert-danger" *ngIf="mobiles.errors && f.submitted">
@@ -136,7 +130,6 @@
               name="mail"
               [(ngModel)]="person.idnp"
               required
-              autofocus
               #idnps="ngModel"
               (ngModelChange)="checkIDNP(person.idnp)"
             />

@@ -10,7 +10,7 @@
             <div class="row">
               <label for="username" class="col-sm-3 col-form-label">Username</label>
               <div class="col-sm-9">
-                <input type="text" class="form-control" id="username" minlength="4" [(ngModel)]="person.username"
+                <input type="text" class="form-control" autofocus id="username" minlength="4" [(ngModel)]="person.username"
                        name="username"
                        required="true" (ngModelChange)="checkUsername(person?.username)">
               </div>

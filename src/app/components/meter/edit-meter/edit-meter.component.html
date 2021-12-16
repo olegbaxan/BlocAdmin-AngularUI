@@ -41,7 +41,6 @@
               [searchable]="true"
               [multiple]="false"
               #dest="ngModel"
-              autofocus
               [ngModelOptions]="{standalone: true}"
               [(ngModel)]=selectedMeterDest>
               <ng-option *ngFor="let mdest of meterDest"
@@ -62,7 +61,6 @@
               name="init"
               [(ngModel)]="meter.initialValue"
               readonly
-              autofocus
               #init="ngModel"
             />
           </div>
@@ -73,11 +71,9 @@
               id="type"
               bindLabel="name"
               required
-              autofocus
               [searchable]="false"
               [multiple]="false"
               #type="ngModel"
-              autofocus
               [ngModelOptions]="{standalone: true}"
               [(ngModel)]=selectedTypeOfMeterInvoice>
               <ng-option *ngFor="let typeOfMeterInvoice of typeOfMeterInvoice"
@@ -96,7 +92,6 @@
                        #pers="ngModel"
                        bindLabel="bindName"
                        required
-                       autofocus
                        [searchable]="true"
                        [multiple]="false"
                        [(ngModel)]=selectedPerson
@@ -117,7 +112,6 @@
                        placeholder="Select Flat"
                        appendTo="body"
                        required
-                       autofocus
                        #fl="ngModel"
                        [searchable]="true"
                        [multiple]="false"
@@ -138,7 +132,6 @@
                        appendTo="body"
                        #supp="ngModel"
                        required
-                       autofocus
                        [searchable]="true"
                        [multiple]="false"
                        [(ngModel)]=selectedSuppliers
@@ -159,7 +152,6 @@
                        [multiple]="false"
                        #build="ngModel"
                        required
-                       autofocus
                        [(ngModel)]=selectedBuilding
                        [ngModelOptions]="{standalone: true}">
               <ng-option *ngFor="let building of buildings"

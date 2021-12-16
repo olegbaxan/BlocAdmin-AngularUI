@@ -41,7 +41,6 @@
               [(ngModel)]="form.previousValue"
               readonly
               #prev="ngModel"
-              autofocus
             />
           </div>
           <div class="input_field"> <span><i aria-hidden="true"></i></span>
@@ -55,7 +54,6 @@
               placeholder="Current Value"
               required
               #curr="ngModel"
-              autofocus
             />
           </div>
           <div class="alert-danger" *ngIf="difference">Current Value should be greater then Previous</div>

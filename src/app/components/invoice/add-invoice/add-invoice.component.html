@@ -39,7 +39,6 @@
                        appendTo="body"
                        #supp="ngModel"
                        required
-                       autofocus
                        [hideSelected]="true"
                        [searchable]="true"
                        [multiple]="false"
@@ -74,7 +73,6 @@
                        [multiple]="true"
                        #build="ngModel"
                        required
-                       autofocus
                        [hideSelected]="true"
                        (change)="getAllBuildingMeters(form.buildings)"
                        [(ngModel)]=form.buildings
@@ -99,7 +97,6 @@
                        [multiple]="false"
                        #met="ngModel"
                        required
-                       autofocus
                        [(ngModel)]=form.meter
                        (change)="getPreviousValue(form.meter)"
                        [ngModelOptions]="{standalone: true}">
@@ -121,7 +118,6 @@
               placeholder="Meter Previous Data"
               required
               #prev="ngModel"
-              autofocus
             />
           </div>
           <div class="alert-danger" *ngIf="prev.errors && f.submitted">
@@ -137,7 +133,6 @@
               placeholder="Current Meter Data"
               required
               #curr="ngModel"
-              autofocus
             />
           </div>
 
@@ -156,7 +151,6 @@
               placeholder="Invoice Sum"
               required
               #sum="ngModel"
-              autofocus
             />
           </div>
           <div class="alert-danger" *ngIf="sum.errors && f.submitted">
@@ -172,7 +166,6 @@
                        [multiple]="false"
                        required
                        #place="ngModel"
-                       autofocus
                        [(ngModel)]="form.typeOfMeterInvoice"
                        [ngModelOptions]="{standalone: true}">
             </ng-select>
@@ -191,7 +184,6 @@
               [(ngModel)]="form.emittedDate"
               placeholder="Emitted on"
               #emitt="ngModel"
-              autofocus
             />
           </div>
           <div class="input_field"><span><i aria-hidden="true"></i></span>
@@ -205,7 +197,6 @@
               placeholder="Invoice Payment limit"
               required
               #till="ngModel"
-              autofocus
             />
           </div>
           <div class="alert-danger" *ngIf="till.errors && f.submitted">

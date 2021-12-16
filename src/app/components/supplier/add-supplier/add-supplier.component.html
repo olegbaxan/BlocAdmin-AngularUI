@@ -37,7 +37,6 @@
               name="iban"
               [(ngModel)]="form.iban"
               required
-              autofocus
               #iban="ngModel"
             />
             <div class="alert-danger" *ngIf="iban.errors && f.submitted">
@@ -53,7 +52,6 @@
               name="bank"
               [(ngModel)]="form.bankCode"
               required
-              autofocus
               #bank="ngModel"
             />
             <div class="alert-danger" *ngIf="bank.errors && f.submitted">
@@ -69,7 +67,6 @@
               name="fiscal"
               [(ngModel)]="form.fiscalCode"
               required
-              autofocus
               #fiscal="ngModel"
             />
             <div class="alert-danger" *ngIf="fiscal.errors && f.submitted">
@@ -84,7 +81,6 @@
               placeholder="Enter Supplier Details"
               name="details"
               [(ngModel)]="form.details"
-              autofocus
               #details="ngModel"
             />
           </div>
@@ -98,7 +94,6 @@
                 [multiple]="false"
                 placeholder="Select Address"
                 #address="ngModel"
-                autofocus
                 [ngModelOptions]="{standalone: true}"
                 [(ngModel)]=selectedAddress>
                 <ng-option *ngFor="let address of addresses"

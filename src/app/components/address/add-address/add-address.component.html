@@ -36,7 +36,6 @@
               name="raion"
               [(ngModel)]="form.raion"
               required
-              autofocus
               #raion="ngModel"
             />
             <div class="alert-danger" *ngIf="raion.errors && f.submitted">
@@ -52,7 +51,6 @@
               name="street"
               [(ngModel)]="form.street"
               required
-              autofocus
               #street="ngModel"
             />
             <div class="alert-danger" *ngIf="street.errors && f.submitted">
@@ -83,7 +81,6 @@
               placeholder="Entrance Number"
               name="entranceNo"
               [(ngModel)]="form.entranceNo"
-              autofocus
               #entrance="ngModel"
             />
           </div>

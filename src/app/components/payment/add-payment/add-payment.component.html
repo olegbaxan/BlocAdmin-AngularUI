@@ -14,6 +14,7 @@
             <ng-select (change)=getPersonFlats() class="custom" id="person"
                        [searchable]="true"
                        [multiple]="false"
+                       autofocus
                        [(ngModel)]=selectedPerson>
               <ng-option *ngFor="let person of persons" [value]="person">{{person.name}} {{person.surname}}</ng-option>
             </ng-select>

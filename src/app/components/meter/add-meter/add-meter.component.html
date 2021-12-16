@@ -44,7 +44,6 @@
               [searchable]="false"
               [multiple]="false"
               #dest="ngModel"
-              autofocus
               [ngModelOptions]="{standalone: true}"
               [(ngModel)]=selectedMeterDest>
               <!--              <ng-option *ngFor="let mdest of meterType"-->
@@ -64,7 +63,6 @@
               name="init"
               [(ngModel)]="form.initialValue"
               required
-              autofocus
               #init="ngModel"
             />
           </div>
@@ -76,7 +74,6 @@
               id="type"
               placeholder="Select Placement"
               required
-              autofocus
               (change)="selectTypeOfMeterInvoice($event)"
               [searchable]="false"
               [multiple]="false"
@@ -99,7 +96,6 @@
                        appendTo="body"
                        #supp="ngModel"
                        required
-                       autofocus
                        [searchable]="true"
                        [multiple]="false"
                        [(ngModel)]=selectedSuppliers
@@ -120,7 +116,6 @@
                        [multiple]="false"
                        #build="ngModel"
                        required
-                       autofocus
                        (change)="getFlatsByBuildingid()"
                        [(ngModel)]=selectedBuilding
                        [ngModelOptions]="{standalone: true}">
@@ -143,7 +138,6 @@
                        #person="ngModel"
                        placeholder="Select Person"
                        required
-                       autofocus
                        [searchable]="true"
                        [multiple]="false"
                        [(ngModel)]=selectedPerson
@@ -163,7 +157,6 @@
                        placeholder="Select Flat"
                        appendTo="body"
                        required
-                       autofocus
                        #flat="ngModel"
                        [searchable]="true"
                        [multiple]="false"

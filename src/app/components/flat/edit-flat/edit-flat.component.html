@@ -45,7 +45,6 @@
               [multiple]="true"
               [hideSelected]="true"
               #person="ngModel"
-              autofocus
               [ngModelOptions]="{standalone: true}"
               [(ngModel)]=selectedPerson>
               <ng-option *ngFor="let person of persons" [value]="person">{{person.name}} {{person.surname}}</ng-option>
@@ -58,7 +57,6 @@
             <label for="flat">Flat Number</label>
             <ng-select
               #flats="ngModel"
-              autofocus
               id="flat"
               name="flat"
               [items]="availableFlats"
@@ -77,7 +75,6 @@
             <label for="floor">Floor Number</label>
             <ng-select
               #floors="ngModel"
-              autofocus
               id="floor"
               name="flat"
               [searchable]="false"
@@ -100,7 +97,6 @@
               name="entranceNo"
               [disabled]="!entranceExist"
               [(ngModel)]="flat.entrance"
-              autofocus
               #entrance="ngModel"
               min="0"
             />
@@ -114,7 +110,6 @@
               name="wallet"
               [(ngModel)]="flat.wallet"
               readonly
-              autofocus
               #wallet="ngModel"
               min="0"
             />
@@ -128,7 +123,6 @@
               placeholder="Number of Person"
               name="personnr"
               [(ngModel)]="flat.numberOfPerson"
-              autofocus
               #personnr="ngModel"
               min="0"
             />
