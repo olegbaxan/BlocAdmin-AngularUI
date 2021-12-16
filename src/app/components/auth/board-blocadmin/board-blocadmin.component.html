@@ -18,13 +18,12 @@
               <th class="col-1">Total sum</th>
               <th class="col-1">Unit price</th>
               <th class="col-1">Pay till</th>
-              <th class="col-1">Emittion date</th>
+              <th class="col-1">Emitted date</th>
               <th class="col-1">Pay date</th>
               <th class="col-1">Meter</th>
               <th class="col-1">Supplier</th>
               <th class="col-1">Buildings</th>
               <th class="col-1">Attachement</th>
-              <!--              <th class="col-1" colspan=2>Quick Edit</th>-->
             </tr>
             </thead>
             <tbody>
@@ -47,8 +46,6 @@
                           <a href="{{invoice.fileInfo?.url}}" download="{{invoice.fileInfo?.name}}">Download</a>
                             </span>
               </td>
-              <!--              <td align="center"><a class="btn btn-lg" routerLink="{{invoice.invoiceId}}"><img-->
-              <!--                src="../../../assets/img/edit1.png">Edit</a></td>-->
             </tr>
             </tbody>
           </table>
@@ -85,9 +82,7 @@
               <th class="col-1">Wallet</th>
               <th class="col-2">Person(s)</th>
               <th class="col-2">Building</th>
-              <!--            <th class="col-1">Meters</th>-->
               <th class="col-1">Person Number</th>
-<!--              <th class="col-2" colspan=2>Quick Edit</th>-->
             </tr>
             </thead>
             <tbody>
@@ -108,8 +103,6 @@
                 *ngIf="flat.building?.address?.entranceNo">{{flat.building?.address?.city}} {{flat.building?.address?.raion}} {{flat.building?.address?.street}} {{flat.building?.address?.houseNumber}}
                 /{{flat.building?.address?.entranceNo}} </td>
               <td>{{flat.numberOfPerson}}</td>
-<!--              <td align="center"><a class="btn btn-lg" routerLink="{{flat.flatid}}"><img-->
-<!--                src="../../../assets/img/edit1.png">Edit</a></td>-->
             </tr>
             </tbody>
           </table>
