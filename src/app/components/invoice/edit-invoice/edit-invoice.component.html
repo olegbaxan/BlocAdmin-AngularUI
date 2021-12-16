@@ -22,6 +22,7 @@
               required
               #invnum="ngModel"
               autofocus
+              disabled="invoice.status?.name!='STATUS_NEW'"
             />
           </div>
           <div class="alert-danger" *ngIf="invnum.errors && f.submitted">
