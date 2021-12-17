@@ -215,6 +215,7 @@ export class BulkaddMeterdataComponent implements OnInit {
 
   getPreviousValue() {
     this.meters?.forEach((meter) => {
+      console.log("meter id",meter.meterId);
       this.meterdataService.getPreviuosMeterData(meter.meterId)
         .subscribe(
           response => {
@@ -228,6 +229,7 @@ export class BulkaddMeterdataComponent implements OnInit {
           error => {
             console.log(error);
           });
+      console.log("MeterResult",this.prevValue);
     });
   }
 

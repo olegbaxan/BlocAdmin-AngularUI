@@ -57,6 +57,7 @@ export class MeterdataService {
     return this.http.get(`${this.baseUrl}/status`);
   }
 
+  // tslint:disable-next-line:typedef
   getPreviuosMeterData(id: any) {
     return this.http.get<number>(`${this.baseUrl}/getprevious/${id}`);
   }
