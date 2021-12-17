@@ -205,7 +205,6 @@ export class BulkaddMeterdataComponent implements OnInit {
       .subscribe(
         response => {
           this.meters = response;
-          console.log("Meters from search",response);
           this.getPreviousValue();
         },
         error => {
@@ -215,7 +214,6 @@ export class BulkaddMeterdataComponent implements OnInit {
 
   getPreviousValue() {
     this.meters?.forEach((meter) => {
-      console.log("meter id",meter.meterId);
       this.meterdataService.getPreviuosMeterData(meter.meterId)
         .subscribe(
           response => {
@@ -225,7 +223,6 @@ export class BulkaddMeterdataComponent implements OnInit {
               this.prevValue = response;
             }
             this.initMeterData(meter);
-            console.log("MeterResult",this.prevValue);
           },
           error => {
             console.log(error);
