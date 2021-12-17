@@ -198,8 +198,27 @@ export class AddInvoiceComponent implements OnInit {
           console.log(error);
         });
   }
-  getPreviousValue(meter:Meter|undefined) {
-      this.meterdataService.getPreviuosMeterData(meter?.meterId)
+  getPreviousValue(meter: Meter | undefined) {
+
+    this.form.typeOfMeterInvoice=undefined;
+    this.meterdataService.getPreviuosMeterData(meter?.meterId)
+      .subscribe(
+        response => {
+          if (response == null) {
+            this.form.meterDataPrevious = meter?.initialValue;
+          } else {
+            this.form.meterDataPrevious = response;
+          }
+        },
+        error => {
+          console.log(error);
+        });
+  }
+
+  // tslint:disable-next-line:typedef
+  getCurrentPreviousValue(meter: Meter | undefined) {
+    if (this.form.typeOfMeterInvoice?.name === 'TYPE_BUILDING'){
+      this.invoiceService.getMaxCurrentPreviousMeterData(meter?.meterId)
         .subscribe(
           response => {
             if (response == null) {
@@ -211,8 +230,9 @@ export class AddInvoiceComponent implements OnInit {
           error => {
             console.log(error);
           });
-  }
+    }
 
+  }
   //File upload and view methods
   selectFiles(event: any): void {
     this.message = [];

@@ -85,4 +85,8 @@ export class InvoiceService {
     return this.http.get(`${this.baseUrl}/invoiceno/${invoiceNo}`);
 
   }
+  // tslint:disable-next-line:typedef
+  getMaxCurrentPreviousMeterData(id: any) {
+    return this.http.get<number>(`${this.baseUrl}/maxprev/${id}`);
+  }
 }
