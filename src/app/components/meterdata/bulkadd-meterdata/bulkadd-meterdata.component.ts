@@ -212,6 +212,7 @@ export class BulkaddMeterdataComponent implements OnInit {
         });
   }
 
+  // tslint:disable-next-line:typedef
   getPreviousValue() {
     this.meters?.forEach((meter) => {
       this.meterdataService.getPreviuosMeterData(meter.meterId)
