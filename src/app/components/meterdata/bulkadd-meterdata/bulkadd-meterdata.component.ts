@@ -225,11 +225,12 @@ export class BulkaddMeterdataComponent implements OnInit {
               this.prevValue = response;
             }
             this.initMeterData(meter);
+            console.log("MeterResult",this.prevValue);
           },
           error => {
             console.log(error);
           });
-      console.log("MeterResult",this.prevValue);
+
     });
   }
 
