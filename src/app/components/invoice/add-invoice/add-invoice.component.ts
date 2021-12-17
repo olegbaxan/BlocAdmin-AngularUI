@@ -1,17 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import {Invoice} from "../../../model/Invoice";
-import {InvoiceService} from "../../../services/invoice.service";
-import {Observable} from "rxjs";
-import {FileUploadService} from "../../../services/file-upload.service";
-import {HttpEventType, HttpResponse} from "@angular/common/http";
-import {Supplier} from "../../../model/Supplier";
-import {Meter} from "../../../model/Meter";
-import {TypeOfMeterInvoice} from "../../../model/TypeOfMeterInvoice";
-import {Building} from "../../../model/Building";
-import {TokenStorageService} from "../../../services/token-storage.service";
-import {Location} from "@angular/common";
-import {Router} from "@angular/router";
-import {MeterdataService} from "../../../services/meterdata.service";
+import {Component, OnInit} from '@angular/core';
+import {Invoice} from '../../../model/Invoice';
+import {InvoiceService} from '../../../services/invoice.service';
+import {Observable} from 'rxjs';
+import {FileUploadService} from '../../../services/file-upload.service';
+import {HttpEventType, HttpResponse} from '@angular/common/http';
+import {Supplier} from '../../../model/Supplier';
+import {Meter} from '../../../model/Meter';
+import {TypeOfMeterInvoice} from '../../../model/TypeOfMeterInvoice';
+import {Building} from '../../../model/Building';
+import {TokenStorageService} from '../../../services/token-storage.service';
+import {Location} from '@angular/common';
+import {Router} from '@angular/router';
+import {MeterdataService} from '../../../services/meterdata.service';
 
 
 @Component({
@@ -36,38 +36,37 @@ export class AddInvoiceComponent implements OnInit {
     supplier: undefined,
     meter: undefined,
     buildings: undefined,
-    invoiceFileId:undefined,
-    hasMeter:true,
+    invoiceFileId: undefined,
+    hasMeter: true,
   };
 
   isSuccessful = false;
-  suppliers: Array<Supplier>= [];
-  buildings: Array<Building>= [];
-  meters: Array<Meter>= [];
-  buildMeters:Array<Meter>=[];
+  suppliers: Array<Supplier> = [];
+  buildings: Array<Building> = [];
+  meters: Array<Meter> = [];
+  buildMeters: Array<Meter> = [];
   typeOfMeterInvoices: Array<TypeOfMeterInvoice> = [];
-  hasMeter:boolean=true;
+  hasMeter: boolean = true;
 
   //File upload
   selectedFiles?: FileList;
   progressInfos: any[] = [];
   message: string[] = [];
-  fileId:string='';
-  fileExist:boolean=false;
-  fileIdName:string='';
+  fileId: string = '';
+  fileExist: boolean = false;
+  fileIdName: string = '';
 
   previews: string[] = [];
   imageInfos?: Observable<any>;
-  invoiceExist=false;
+  invoiceExist = false;
 
 
   constructor(private invoiceService: InvoiceService,
               private uploadService: FileUploadService,
-              public tokenStorageService:TokenStorageService,
+              public tokenStorageService: TokenStorageService,
               private _location: Location,
-              private meterdataService:MeterdataService,
-              private router:Router)
-  {
+              private meterdataService: MeterdataService,
+              private router: Router) {
     this.tokenStorageService.getPersonData();
   }
 
@@ -75,16 +74,16 @@ export class AddInvoiceComponent implements OnInit {
     this.getAllMeters();
     this.getAllSuppliers();
     this.getAllBuildings();
-    this.getAllTypeOfMeterAndInvoice()
+    this.getAllTypeOfMeterAndInvoice();
 
-   }
+  }
 
 
   private getAllMeters(): void {
     this.invoiceService.getMeters()
       .subscribe(
         response => {
-          this.meters=[];
+          this.meters = [];
           for (let item in response) {
             response[item].bindName = response[item].serial;
             this.meters.push(response[item]);
@@ -95,11 +94,12 @@ export class AddInvoiceComponent implements OnInit {
           console.log(error);
         });
   }
+
   private getAllSuppliers(): void {
     this.invoiceService.getSuppliers()
       .subscribe(
         response => {
-          this.suppliers=[];
+          this.suppliers = [];
           for (let item in response) {
             response[item].bindName = response[item].supplierName;
             this.suppliers.push(response[item]);
@@ -109,17 +109,17 @@ export class AddInvoiceComponent implements OnInit {
           console.log(error);
         });
   }
+
   private getAllBuildings(): void {
     this.invoiceService.getBuildings()
       .subscribe(
         response => {
-          this.buildings=[];
+          this.buildings = [];
           for (let item in response) {
-            if(!response[item].address.entranceNo){
-              response[item].bindName = response[item].address.city + " " + response[item].address.raion+ " " + response[item].address.street+ " " + response[item].address.houseNumber;
-            }
-            else {
-              response[item].bindName = response[item].address.city + " " + response[item].address.raion+ " " + response[item].address.street+ " " + response[item].address.houseNumber+"/"+response[item].address.entranceNo;
+            if (!response[item].address.entranceNo) {
+              response[item].bindName = response[item].address.city + ' ' + response[item].address.raion + ' ' + response[item].address.street + ' ' + response[item].address.houseNumber;
+            } else {
+              response[item].bindName = response[item].address.city + ' ' + response[item].address.raion + ' ' + response[item].address.street + ' ' + response[item].address.houseNumber + '/' + response[item].address.entranceNo;
             }
             this.buildings.push(response[item]);
           }
@@ -129,11 +129,12 @@ export class AddInvoiceComponent implements OnInit {
         });
     // return response;
   }
+
   private getAllTypeOfMeterAndInvoice(): void {
     this.invoiceService.getTypeOfMeterAndInvoice()
       .subscribe(
         response => {
-          this.typeOfMeterInvoices=[];
+          this.typeOfMeterInvoices = [];
           this.typeOfMeterInvoices = response;
         },
         error => {
@@ -141,21 +142,23 @@ export class AddInvoiceComponent implements OnInit {
         });
     // return response;
   }
-  getAllBuildingMeters(buildings:Building[]|undefined) {
-    if (buildings!=null){
-      for (let i=0;i<buildings?.length;i++){
-        this.buildMeters=[];
+
+  getAllBuildingMeters(buildings: Building[] | undefined) {
+    if (buildings != null) {
+      for (let i = 0; i < buildings?.length; i++) {
+        this.buildMeters = [];
         this.getBuildMeters(buildings[i]);
       }
     }
 
   }
-  private getBuildMeters(building:Building): any {
+
+  private getBuildMeters(building: Building): any {
     this.invoiceService.getMetersByBuildingId(building.buildingid)
       .subscribe(
         response => {
 
-          for (let item in response){
+          for (let item in response) {
             response[item].bindName = response[item].serial;
             this.buildMeters.push(response[item]);
           }
@@ -168,7 +171,7 @@ export class AddInvoiceComponent implements OnInit {
 
 
   saveInvoice(): void {
-    if (!this.form.buildings){
+    if (!this.form.buildings) {
       // @ts-ignore
       this.form.buildings.push(this.form?.meter?.building);
     }
@@ -185,7 +188,7 @@ export class AddInvoiceComponent implements OnInit {
       supplier: this.form.supplier,
       buildings: this.form.buildings,
       meter: this.form.meter,
-      invoiceFileId:this.fileId,
+      invoiceFileId: this.fileId,
     };
     this.invoiceService.createInvoice(data)
       .subscribe(
@@ -198,9 +201,10 @@ export class AddInvoiceComponent implements OnInit {
           console.log(error);
         });
   }
+
   getPreviousValue(meter: Meter | undefined) {
 
-    this.form.typeOfMeterInvoice=undefined;
+    this.form.typeOfMeterInvoice = undefined;
     this.meterdataService.getPreviuosMeterData(meter?.meterId)
       .subscribe(
         response => {
@@ -217,7 +221,7 @@ export class AddInvoiceComponent implements OnInit {
 
   // tslint:disable-next-line:typedef
   getCurrentPreviousValue(meter: Meter | undefined) {
-    if (this.form.typeOfMeterInvoice?.name === 'TYPE_BUILDING'){
+    if (this.form.typeOfMeterInvoice?.name === 'TYPE_BUILDING' || this.form.typeOfMeterInvoice?.name === 'TYPE_LADDER'){
       this.invoiceService.getMaxCurrentPreviousMeterData(meter?.meterId)
         .subscribe(
           response => {
@@ -231,8 +235,11 @@ export class AddInvoiceComponent implements OnInit {
             console.log(error);
           });
     }
-
+    else {
+      this.getPreviousValue(meter);
+    }
   }
+
   //File upload and view methods
   selectFiles(event: any): void {
     this.message = [];
@@ -252,6 +259,7 @@ export class AddInvoiceComponent implements OnInit {
       }
     }
   }
+
   uploadFiles(): void {
     this.message = [];
 
@@ -261,8 +269,9 @@ export class AddInvoiceComponent implements OnInit {
       }
     }
   }
+
   upload(idx: number, file: File): void {
-    this.progressInfos[idx] = { value: 0, fileName: file.name };
+    this.progressInfos[idx] = {value: 0, fileName: file.name};
 
     if (file) {
       this.uploadService.upload(file).subscribe(
@@ -270,9 +279,9 @@ export class AddInvoiceComponent implements OnInit {
           if (event.type === HttpEventType.UploadProgress) {
             this.progressInfos[idx].value = Math.round(100 * event.loaded / event.total);
           } else if (event instanceof HttpResponse) {
-            if(event.body.fileDB!="Unknown"){
+            if (event.body.fileDB != 'Unknown') {
 
-                this.fileId=event.body.fileDB[0].name;
+              this.fileId = event.body.fileDB[0].name;
 
               // this.imageInfos = this.uploadService.getFilesById(this.fileId);
               this.imageInfos = event.body.fileDB[0];
@@ -291,28 +300,29 @@ export class AddInvoiceComponent implements OnInit {
         });
     }
 
-}
+  }
 
   changeMeter() {
-    this.form.buildings=[];
-    this.form.meter=undefined;
-    this.form.meterDataCurrent=undefined;
+    this.form.buildings = [];
+    this.form.meter = undefined;
+    this.form.meterDataCurrent = undefined;
   }
+
   backClicked() {
     this._location.back();
   }
 
 
-  checkInvoiceNo(invoiceNumber: String|undefined) {
-      if (invoiceNumber)  {
-        this.invoiceService.checkInvoice(invoiceNumber)
-          .subscribe(
-            response => {
-              this.invoiceExist = response;
-            },
-            error => {
-              console.log(error);
-            });
-      }
+  checkInvoiceNo(invoiceNumber: String | undefined) {
+    if (invoiceNumber) {
+      this.invoiceService.checkInvoice(invoiceNumber)
+        .subscribe(
+          response => {
+            this.invoiceExist = response;
+          },
+          error => {
+            console.log(error);
+          });
     }
+  }
 }
