@@ -205,6 +205,7 @@ export class BulkaddMeterdataComponent implements OnInit {
       .subscribe(
         response => {
           this.meters = response;
+          console.log("Meters from search",response);
           this.getPreviousValue();
         },
         error => {
