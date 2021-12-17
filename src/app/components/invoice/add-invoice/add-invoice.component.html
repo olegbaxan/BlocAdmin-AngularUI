@@ -108,25 +108,6 @@
               <div *ngIf="met.errors.required">Meter is required</div>
             </div>
           </div>
-            <div class="input_field"><span><i aria-hidden="true" ></i></span>
-              <label for="place">Placement</label>
-              <ng-select id="place" [items]="typeOfMeterInvoices"
-                         bindLabel="name"
-                         placeholder="Select Type of Invoice"
-                         appendTo="body"
-                         [searchable]="false"
-                         [multiple]="false"
-                         required
-                         #place="ngModel"
-                         (change)="getCurrentPreviousValue(form.meter)"
-                         [(ngModel)]="form.typeOfMeterInvoice"
-                         [ngModelOptions]="{standalone: true}">
-              </ng-select>
-
-              <div class="alert-danger" *ngIf="place.errors && f.submitted">
-                <div *ngIf="place.errors.required">Placement is required</div>
-              </div>
-            </div>
           <div class="input_field" ><span><i aria-hidden="true"></i></span>
             <label for="prev">Meter Previous Data</label>
             <input
@@ -174,6 +155,24 @@
           </div>
           <div class="alert-danger" *ngIf="sum.errors && f.submitted">
             <div *ngIf="sum.errors.required">Invoice sum is required</div>
+          </div>
+          <div class="input_field"><span><i aria-hidden="true" ></i></span>
+            <label for="place">Placement</label>
+            <ng-select id="place" [items]="typeOfMeterInvoices"
+                       bindLabel="name"
+                       placeholder="Select Type of Invoice"
+                       appendTo="body"
+                       [searchable]="false"
+                       [multiple]="false"
+                       required
+                       #place="ngModel"
+                       [(ngModel)]="form.typeOfMeterInvoice"
+                       [ngModelOptions]="{standalone: true}">
+            </ng-select>
+
+            <div class="alert-danger" *ngIf="place.errors && f.submitted">
+              <div *ngIf="place.errors.required">Placement is required</div>
+            </div>
           </div>
           <div class="input_field "><span><i aria-hidden="true"></i></span>
             <label for="emitt">Emitted Date</label>
